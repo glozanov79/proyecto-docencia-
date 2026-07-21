@@ -121,7 +121,10 @@ def main():
                 print(resultado.stderr)
                 continue
 
-            brief_path = p["carpeta"] / "salidas" / f"Semana {p['semana']:02d}" / "brief.md"
+            marcador = p["carpeta"] / "salidas" / "ULTIMO_BRIEF.txt"
+            if not marcador.exists():
+                continue
+            brief_path = p["carpeta"] / marcador.read_text(encoding="utf-8").strip()
             if not brief_path.exists():
                 continue
 

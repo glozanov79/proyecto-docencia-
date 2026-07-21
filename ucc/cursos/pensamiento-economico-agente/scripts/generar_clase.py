@@ -96,8 +96,11 @@ def generar_brief(fecha_iso, sesion, curso, continuidad_md, programa_md):
         f"- {curso['estructura_sesion']['ejercicios_estudiantes_minutos']} min — ejercicios de los estudiantes"
     )
 
-    brief = f"""# Brief de clase — Semana {semana}
+    nota = sesion.get("nota")
+    alerta = f"\n## ⚠ Alerta de calendario\n{nota}\n" if nota else ""
 
+    brief = f"""# Brief de clase — Semana {semana}
+{alerta}
 ## Semana y fecha
 - Semana: {semana} de {curso['duracion_semanas']}
 - Fecha: {fecha_iso} ({curso['dia_clase']})
@@ -145,7 +148,7 @@ def actualizar_continuidad(fecha_iso, semana, tema, ruta):
         f"Semana {semana} — {fecha_iso}"
     )
 
-    estado_linea = f"**Estado de preparación semana {semana}:** brief generado ✓ (`salidas/Semana {semana:02d}/brief.md`)"
+    estado_linea = f"**Estado de preparación semana {semana}:** brief generado ✓ (`salidas/Semana {semana:02d} - {fecha_iso}/brief.md`)"
     if "Estado de preparación semana" not in texto:
         texto = texto.rstrip() + f"\n{estado_linea}\n"
     else:
@@ -176,18 +179,18 @@ def main():
         print(f"Sin clase el {fecha_objetivo} (en {anticipacion} día(s)). Nada que preparar.")
         return
 
-    if es_receso_o_festivo(sesion.get("nota")):
-        print(f"Semana {sesion['semana']} ({fecha_objetivo}) marcada como receso/festivo:")
-        print(f"  → {sesion['nota']}")
-        print("No se genera brief. Verificar manualmente.")
-        return
+    nota = sesion.get("nota")
+    if nota:
+        print(f"AVISO — Semana {sesion['semana']} ({fecha_objetivo}) tiene una alerta de calendario:")
+        print(f"  → {nota}")
+        print("  Se genera el contenido de todas formas; la alerta queda en el brief.")
 
     print(f"Clase próxima: semana {sesion['semana']} — {fecha_objetivo} (en {anticipacion} día(s))")
 
     continuidad_md = leer_texto(BASE / "registro" / "continuidad.md")
     programa_md = leer_texto(BASE / "temario" / "programa_oficial.md")
 
-    nombre_carpeta = f"Semana {sesion['semana']:02d}"
+    nombre_carpeta = f"Semana {sesion['semana']:02d} - {fecha_objetivo}"
     salida_dir = BASE / "salidas" / nombre_carpeta
     salida_dir.mkdir(parents=True, exist_ok=True)
     brief = generar_brief(fecha_objetivo, sesion, curso, continuidad_md, programa_md)

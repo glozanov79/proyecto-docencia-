@@ -4,6 +4,11 @@
       "nombre": "Razonamiento Cuantitativo",
       "carpeta": "cursos/razonamiento-cuantitativo-agente",
       "activo": true
+    },
+    {
+      "nombre": "Escuelas del Pensamiento Económico",
+      "carpeta": "cursos/pensamiento-economico-agente",
+      "activo": true
     }
   ]
 }
