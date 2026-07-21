@@ -1,0 +1,9 @@
+{
+  "cursos": [
+    {
+      "nombre": "Razonamiento Cuantitativo",
+      "carpeta": "cursos/razonamiento-cuantitativo-agente",
+      "activo": true
+    }
+  ]
+}
