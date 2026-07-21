@@ -145,7 +145,7 @@ def actualizar_continuidad(fecha_iso, semana, tema, ruta):
         f"Semana {semana} — {fecha_iso}"
     )
 
-    estado_linea = f"**Estado de preparación semana {semana}:** brief generado ✓ (`salidas/{fecha_iso}/brief.md`)"
+    estado_linea = f"**Estado de preparación semana {semana}:** brief generado ✓ (`salidas/Semana {semana:02d}/brief.md`)"
     if "Estado de preparación semana" not in texto:
         texto = texto.rstrip() + f"\n{estado_linea}\n"
     else:
@@ -187,11 +187,12 @@ def main():
     continuidad_md = leer_texto(BASE / "registro" / "continuidad.md")
     programa_md = leer_texto(BASE / "temario" / "programa_oficial.md")
 
-    salida_dir = BASE / "salidas" / fecha_objetivo
+    nombre_carpeta = f"Semana {sesion['semana']:02d}"
+    salida_dir = BASE / "salidas" / nombre_carpeta
     salida_dir.mkdir(parents=True, exist_ok=True)
     brief = generar_brief(fecha_objetivo, sesion, curso, continuidad_md, programa_md)
     (salida_dir / "brief.md").write_text(brief, encoding="utf-8")
-    print(f"brief.md generado en: salidas/{fecha_objetivo}/brief.md")
+    print(f"brief.md generado en: salidas/{nombre_carpeta}/brief.md")
 
     ruta_continuidad = BASE / "registro" / "continuidad.md"
     tema, _ = tema_de_semana(sesion["semana"], programa_md)

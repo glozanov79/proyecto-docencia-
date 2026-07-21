@@ -121,7 +121,7 @@ def main():
                 print(resultado.stderr)
                 continue
 
-            brief_path = p["carpeta"] / "salidas" / p["fecha"] / "brief.md"
+            brief_path = p["carpeta"] / "salidas" / f"Semana {p['semana']:02d}" / "brief.md"
             if not brief_path.exists():
                 continue
 
