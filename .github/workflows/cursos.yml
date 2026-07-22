@@ -1,0 +1,33 @@
+name: Generar materiales de clase (UCC)
+
+on:
+  schedule:
+    - cron: '0 5 * * *'   # medianoche Colombia (UTC-5)
+  workflow_dispatch:        # disparo manual desde GitHub → Actions → Run workflow
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install anthropic python-pptx python-docx openpyxl
+
+      - name: Ejecutar jefe general
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python jefe_general.py --ejecutar
+
+      - name: Enviar briefs por email
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DESTINATARIO: lozanogerman79@gmail.com
+        run: python scripts/enviar_briefs.py

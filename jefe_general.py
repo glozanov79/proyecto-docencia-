@@ -26,12 +26,14 @@ DOMINIOS = ["ucc", "unad", "agenda"]
 
 def main():
     ejecutar = "--ejecutar" in sys.argv
-    args = ["--ejecutar"] if ejecutar else []
 
     if "--fecha" in sys.argv:
         fecha_fake = sys.argv[sys.argv.index("--fecha") + 1]
         os.environ["JEFE_FAKE_HOY"] = fecha_fake
         print(f"(simulando 'hoy' = {fecha_fake})\n")
+
+    # dominios que aceptan --ejecutar (los que tienen cursos que generar)
+    SOPORTAN_EJECUTAR = {"ucc", "unad"}
 
     print("Jefe general — revisando todos los dominios registrados\n")
 
@@ -44,6 +46,7 @@ def main():
             continue
 
         print(f"=== {dominio.upper()} ===")
+        args = ["--ejecutar"] if (ejecutar and dominio in SOPORTAN_EJECUTAR) else []
         resultado = subprocess.run(
             [sys.executable, "jefe.py"] + args,
             cwd=carpeta,

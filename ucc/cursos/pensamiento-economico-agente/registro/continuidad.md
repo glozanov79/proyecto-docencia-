@@ -9,4 +9,3 @@
 **Tarea/evidencia asignada y fecha de entrega:** —
 **Próxima clase (semana + tema según el mapa):** —
 **Notas para la presentación de la próxima clase:** —
-**Estado de preparación semana 10:** brief generado ✓ (`salidas/2026-10-05/brief.md`)
