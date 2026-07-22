@@ -1,0 +1,20 @@
+{
+  "dominio": "agenda",
+  "descripcion": "Orquesta el agente de calendario y el agente de correo. El correo DEPENDE del calendario: se cruza cada mensaje contra los eventos reales.",
+  "zona_horaria": "America/Bogota",
+  "cuentas": {
+    "gmail": "lozanogerman79@gmail.com",
+    "google_calendar": "principal",
+    "outlook_reenviado_a": "lozanogerman79@gmail.com",
+    "etiqueta_reenvio": "outlook-reenviado"
+  },
+  "ventana_dias": 7,
+  "orden_ejecucion": ["calendario", "correo"],
+  "frescura_snapshot_horas": 2,
+  "rutas": {
+    "snapshot_agenda": "calendario/salidas/agenda_actual.json",
+    "ultima_revision_correo": "correo/salidas/ULTIMA_REVISION.md",
+    "rutina_calendario": "calendario/RUTINA_AGENDA.md",
+    "rutina_correo": "correo/RUTINA_CORREO.md"
+  }
+}

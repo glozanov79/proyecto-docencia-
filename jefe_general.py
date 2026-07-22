@@ -52,7 +52,17 @@ def main():
             encoding="utf-8",
         )
         print(resultado.stdout)
-        if resultado.returncode != 0:
+
+        if dominio == "agenda":
+            # agenda/jefe.py usa el código de salida como estado de negocio,
+            # no como señal de error: 0 = correo habilitado, 1 = bloqueado
+            # porque falta un snapshot de calendario fresco. Ninguno de los
+            # dos casos es un fallo del script — solo un código fuera de
+            # {0, 1} indica un error real.
+            if resultado.returncode not in (0, 1):
+                print(f"ERROR en el jefe de {dominio} (código {resultado.returncode}):")
+                print(resultado.stderr)
+        elif resultado.returncode != 0:
             print(f"ERROR en el jefe de {dominio}:")
             print(resultado.stderr)
         print()

@@ -1,0 +1,16 @@
+{
+  "descripcion": "Reglas para clasificar prioridad de correos. Se evalúan de alta a baja; el primer bloque que coincide gana. La existencia de una fecha límite explícita sube la prioridad un nivel.",
+  "prioridad_alta": {
+    "remitentes_contiene": ["@campusucc.edu.co", "coordinacion", "coordinación", "decanatura", "direccion", "dirección", "vicerrector", "rectoria", "rectoría"],
+    "palabras_clave": ["urgente", "hoy", "mañana", "plazo", "fecha limite", "fecha límite", "acta", "reunion", "reunión", "calificaciones", "notas", "cierre", "vencimiento", "citacion", "citación"]
+  },
+  "prioridad_media": {
+    "remitentes_contiene": ["estudiante", "@ucc.edu.co"],
+    "palabras_clave": ["invitacion", "invitación", "recordatorio", "seguimiento", "confirmar", "disponibilidad", "propuesta", "revisar", "solicitud"]
+  },
+  "prioridad_baja": {
+    "remitentes_contiene": ["newsletter", "noreply", "no-reply", "notifications", "notificaciones", "mailer"],
+    "palabras_clave": ["boletin", "boletín", "promocion", "promoción", "novedades", "descuento", "webinar gratis"]
+  },
+  "sube_nivel_si_tiene_fecha_limite": true
+}
