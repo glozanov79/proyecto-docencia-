@@ -1,0 +1,91 @@
+{
+  "sesiones": [
+    {
+      "semana": 1,
+      "fecha": "2026-08-04",
+      "nota": null
+    },
+    {
+      "semana": 2,
+      "fecha": "2026-08-11",
+      "nota": null
+    },
+    {
+      "semana": 3,
+      "fecha": "2026-08-18",
+      "nota": null
+    },
+    {
+      "semana": 4,
+      "fecha": "2026-08-25",
+      "nota": null
+    },
+    {
+      "semana": 5,
+      "fecha": "2026-09-01",
+      "nota": null
+    },
+    {
+      "semana": 6,
+      "fecha": "2026-09-08",
+      "nota": null
+    },
+    {
+      "semana": 7,
+      "fecha": "2026-09-15",
+      "nota": null
+    },
+    {
+      "semana": 8,
+      "fecha": "2026-09-22",
+      "nota": null
+    },
+    {
+      "semana": 9,
+      "fecha": "2026-09-29",
+      "nota": null
+    },
+    {
+      "semana": 10,
+      "fecha": "2026-10-06",
+      "nota": "Semana de receso estudiantil UCC (5-9 oct) — confirmar si hay clase"
+    },
+    {
+      "semana": 11,
+      "fecha": "2026-10-13",
+      "nota": null
+    },
+    {
+      "semana": 12,
+      "fecha": "2026-10-20",
+      "nota": null
+    },
+    {
+      "semana": 13,
+      "fecha": "2026-10-27",
+      "nota": null
+    },
+    {
+      "semana": 14,
+      "fecha": "2026-11-03",
+      "nota": null
+    },
+    {
+      "semana": 15,
+      "fecha": "2026-11-10",
+      "nota": null
+    },
+    {
+      "semana": 16,
+      "fecha": "2026-11-17",
+      "nota": null
+    }
+  ],
+  "festivos_2026_relevantes": [
+    "2026-08-17",
+    "2026-10-12",
+    "2026-11-02",
+    "2026-11-16"
+  ],
+  "observacion": "Curso con 1 sesión semanal (martes). Festivos/receso NO bloquean generación de contenido, solo quedan como alerta."
+}

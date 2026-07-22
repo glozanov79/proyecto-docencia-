@@ -1,0 +1,91 @@
+{
+  "sesiones": [
+    {
+      "semana": 1,
+      "fecha": "2026-08-03",
+      "nota": null
+    },
+    {
+      "semana": 2,
+      "fecha": "2026-08-10",
+      "nota": null
+    },
+    {
+      "semana": 3,
+      "fecha": "2026-08-17",
+      "nota": "Festivo (Asunción de la Virgen) — confirmar si hay clase"
+    },
+    {
+      "semana": 4,
+      "fecha": "2026-08-24",
+      "nota": null
+    },
+    {
+      "semana": 5,
+      "fecha": "2026-08-31",
+      "nota": null
+    },
+    {
+      "semana": 6,
+      "fecha": "2026-09-07",
+      "nota": null
+    },
+    {
+      "semana": 7,
+      "fecha": "2026-09-14",
+      "nota": null
+    },
+    {
+      "semana": 8,
+      "fecha": "2026-09-21",
+      "nota": null
+    },
+    {
+      "semana": 9,
+      "fecha": "2026-09-28",
+      "nota": null
+    },
+    {
+      "semana": 10,
+      "fecha": "2026-10-05",
+      "nota": "Semana de receso estudiantil UCC (5-9 oct) — confirmar si hay clase"
+    },
+    {
+      "semana": 11,
+      "fecha": "2026-10-12",
+      "nota": "Festivo (Día de la Raza) — confirmar si hay clase"
+    },
+    {
+      "semana": 12,
+      "fecha": "2026-10-19",
+      "nota": null
+    },
+    {
+      "semana": 13,
+      "fecha": "2026-10-26",
+      "nota": null
+    },
+    {
+      "semana": 14,
+      "fecha": "2026-11-02",
+      "nota": "Festivo (Todos los Santos) — confirmar si hay clase"
+    },
+    {
+      "semana": 15,
+      "fecha": "2026-11-09",
+      "nota": null
+    },
+    {
+      "semana": 16,
+      "fecha": "2026-11-16",
+      "nota": "Festivo (Independencia de Cartagena) — confirmar si hay clase"
+    }
+  ],
+  "festivos_2026_relevantes": [
+    "2026-08-17",
+    "2026-10-12",
+    "2026-11-02",
+    "2026-11-16"
+  ],
+  "observacion": "Curso con 1 sesión semanal (lunes). Festivos y receso NO bloquean la generación de contenido, solo quedan como alerta."
+}

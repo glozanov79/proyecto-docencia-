@@ -1,0 +1,19 @@
+{
+  "curso": "E-Financial",
+  "universidad": "Universidad Cooperativa de Colombia (UCC)",
+  "modalidad": "Presencial",
+  "dias_clase": ["Lunes"],
+  "dia_clase": "Lunes",
+  "horario": "18:00 - 20:00 (programado)",
+  "horario_real": "18:30 - 20:00",
+  "duracion_real_minutos": 90,
+  "fecha_inicio": "2026-08-03",
+  "duracion_semanas": 16,
+  "dias_anticipacion": 7,
+  "profesor": "Germán Lozano Vivas",
+  "estructura_sesion": {
+    "presentacion_minutos": 35,
+    "ejercicios_profesor_minutos": 30,
+    "ejercicios_estudiantes_minutos": 25
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "curso": "Inteligencia Artificial en Inversiones",
+  "universidad": "Universidad Cooperativa de Colombia (UCC)",
+  "modalidad": "Presencial",
+  "dias_clase": ["Martes"],
+  "dia_clase": "Martes",
+  "horario": "18:00 - 22:00 (programado)",
+  "horario_real": "18:30 - 20:30",
+  "duracion_real_minutos": 120,
+  "fecha_inicio": "2026-08-04",
+  "duracion_semanas": 16,
+  "dias_anticipacion": 7,
+  "profesor": "Germán Lozano Vivas",
+  "estructura_sesion": {
+    "presentacion_minutos": 45,
+    "ejercicios_profesor_minutos": 40,
+    "ejercicios_estudiantes_minutos": 35
+  }
+}

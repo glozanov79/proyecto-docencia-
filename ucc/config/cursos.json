@@ -9,6 +9,16 @@
       "nombre": "Escuelas del Pensamiento Económico",
       "carpeta": "cursos/pensamiento-economico-agente",
       "activo": true
+    },
+    {
+      "nombre": "E-Financial",
+      "carpeta": "cursos/e-financial-agente",
+      "activo": true
+    },
+    {
+      "nombre": "Inteligencia Artificial en Inversiones",
+      "carpeta": "cursos/ia-inversiones-agente",
+      "activo": true
     }
   ]
 }
