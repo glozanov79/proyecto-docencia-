@@ -1,0 +1,103 @@
+{
+  "sesiones": [
+    {
+      "semana": 1,
+      "fecha": "2026-08-02",
+      "tema": "Presentación de acuerdo pedagógico y programa del curso",
+      "recurso": "Introducción — Teoría Comercio Internacional"
+    },
+    {
+      "semana": 2,
+      "fecha": "2026-08-09",
+      "tema": "Teorías del Comercio Internacional; Mercantilismo; Ventaja Absoluta",
+      "recurso": "Conceptualización — Crítica a la Teoría Clásica del Comercio Internacional"
+    },
+    {
+      "semana": 3,
+      "fecha": "2026-08-16",
+      "tema": "Teoría de la Ventaja Comparativa de David Ricardo",
+      "recurso": "Conceptualización — Diferentes teorías del comercio internacional"
+    },
+    {
+      "semana": 4,
+      "fecha": "2026-08-23",
+      "tema": "Taller de aplicación de la Teoría de la Ventaja Absoluta y Comparativa",
+      "recurso": "Actividad evaluativa — Aplicación de teorías"
+    },
+    {
+      "semana": 5,
+      "fecha": "2026-08-30",
+      "tema": "Teoría de la Ventaja Competitiva de Michael Porter",
+      "recurso": "Conceptualización — Ventaja Competitiva"
+    },
+    {
+      "semana": 6,
+      "fecha": "2026-09-06",
+      "notas": "avance",
+      "tema": "Estudio de caso: Aplicación de la Teoría de la Ventaja Competitiva",
+      "recurso": "Evaluación de avance — Revisión de semanas 1-5"
+    },
+    {
+      "semana": 7,
+      "fecha": "2026-09-13",
+      "tema": "Estructura del Comercio Internacional; Formas de integración económica",
+      "recurso": "Conceptualización — Teorías de la integración regional"
+    },
+    {
+      "semana": 8,
+      "fecha": "2026-09-20",
+      "tema": "Estructura del Comercio Internacional; Principales bloques comerciales",
+      "recurso": "Conceptualización — Economía de la integración"
+    },
+    {
+      "semana": 9,
+      "fecha": "2026-09-27",
+      "tema": "Línea de tiempo; Análisis de la Estructura del Comercio Internacional",
+      "recurso": "Foro de discusión — Análisis evaluativo asincrónico"
+    },
+    {
+      "semana": 10,
+      "fecha": "2026-10-04",
+      "tema": "Aspectos operativos y legales; Arancel Aduanero; Contingentes; Restricciones administrativas",
+      "recurso": "Conceptualización — Economía internacional"
+    },
+    {
+      "semana": 11,
+      "fecha": "2026-10-11",
+      "tema": "Instrumentos de Carácter Monetario; Subvenciones; Comercio de Estado",
+      "recurso": "Conceptualización — Regulaciones del comercio internacional"
+    },
+    {
+      "semana": 12,
+      "fecha": "2026-10-18",
+      "notas": "avance",
+      "tema": "Cuestionario en línea evaluativo",
+      "recurso": "Evaluación de avance — Revisión de semanas 7-11"
+    },
+    {
+      "semana": 13,
+      "fecha": "2026-10-25",
+      "tema": "Implicaciones de los acuerdos comerciales en el contexto del comercio entre países",
+      "recurso": "Conceptualización — Acuerdos comerciales y de inversión"
+    },
+    {
+      "semana": 14,
+      "fecha": "2026-11-01",
+      "tema": "Análisis del Comercio Internacional desde el ámbito de los acuerdos comerciales",
+      "recurso": "Conceptualización — Agenda de competitividad e innovación"
+    },
+    {
+      "semana": 15,
+      "fecha": "2026-11-08",
+      "tema": "Implicaciones de los acuerdos comerciales; Texto argumentativo",
+      "recurso": "Actividad evaluativa — Análisis de acuerdos"
+    },
+    {
+      "semana": 16,
+      "fecha": "2026-11-15",
+      "notas": "avance",
+      "tema": "Socialización y retroalimentación del curso",
+      "recurso": "Evaluación final — Conclusiones y cierre"
+    }
+  ]
+}

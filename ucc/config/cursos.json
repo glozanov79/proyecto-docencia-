@@ -29,6 +29,11 @@
       "nombre": "Control y Finanzas Públicas",
       "carpeta": "cursos/control-finanzas-publicas-agente",
       "activo": true
+    },
+    {
+      "nombre": "Teoría Comercio Internacional",
+      "carpeta": "cursos/comercio-internacional-agente",
+      "activo": true
     }
   ]
 }

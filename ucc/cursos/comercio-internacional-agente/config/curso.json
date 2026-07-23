@@ -1,0 +1,11 @@
+{
+  "curso": "Teoría Comercio Internacional",
+  "universidad": "Universidad Cooperativa de Colombia (UCC)",
+  "dia_clase": "Sábado",
+  "horario_real": "07:30 - 09:00",
+  "duracion_real_minutos": 90,
+  "fecha_inicio": "2026-08-02",
+  "duracion_semanas": 16,
+  "dias_anticipacion": 10,
+  "profesor": "Germán Lozano Vivas"
+}
