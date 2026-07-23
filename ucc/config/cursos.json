@@ -24,6 +24,11 @@
       "nombre": "Finanzas Internacionales",
       "carpeta": "cursos/finanzas-internacionales-agente",
       "activo": true
+    },
+    {
+      "nombre": "Control y Finanzas Públicas",
+      "carpeta": "cursos/control-finanzas-publicas-agente",
+      "activo": true
     }
   ]
 }

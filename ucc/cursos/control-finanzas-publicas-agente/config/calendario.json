@@ -1,0 +1,103 @@
+{
+  "sesiones": [
+    {
+      "semana": 1,
+      "fecha": "2026-08-01",
+      "tema": "Historia fiscal en Colombia; El consumo y la inversión; Organización y funciones de la Hacienda Pública",
+      "recurso": "Conceptualización de temática — Finanzas públicas: soporte para el desarrollo del estado"
+    },
+    {
+      "semana": 2,
+      "fecha": "2026-08-08",
+      "tema": "Introducción a la problemática fiscal; La economía pública y las finanzas públicas dentro de la economía pública",
+      "recurso": "Conceptualización de temática — Presupuesto público y contabilidad gubernamental"
+    },
+    {
+      "semana": 3,
+      "fecha": "2026-08-15",
+      "tema": "Finanzas públicas territoriales; Evolución del concepto de hacienda pública; Objeto de las finanzas públicas",
+      "recurso": "Conceptualización de temática — Hacienda pública: las finanzas del estado"
+    },
+    {
+      "semana": 4,
+      "fecha": "2026-08-22",
+      "tema": "El desarrollo económico y la equidad; Normas que rigen la programación, aprobación y ejecución del presupuesto público (MECI, MIPG)",
+      "recurso": "Conceptualización de temática — Estructura de las finanzas públicas en Colombia"
+    },
+    {
+      "semana": 5,
+      "fecha": "2026-08-29",
+      "tema": "Metodologías para el diagnóstico de empresas del Estado",
+      "recurso": "Conceptualización de temática — Administración Pública"
+    },
+    {
+      "semana": 6,
+      "fecha": "2026-09-05",
+      "notas": "avance",
+      "tema": "Criterios para diseñar acciones de fortalecimiento en empresas estatales",
+      "recurso": "Evaluación de avance — Revisión de semanas 1-5"
+    },
+    {
+      "semana": 7,
+      "fecha": "2026-09-12",
+      "tema": "Orígenes y enfoques de los ingresos públicos; Las políticas tributarias y los impuestos",
+      "recurso": "Conceptualización de temática — Control de lectura"
+    },
+    {
+      "semana": 8,
+      "fecha": "2026-09-19",
+      "tema": "Fuentes de ingresos complementarias a la base fiscal; Otras fuentes de ingresos en sector público consolidado y descentralizado; Ingresos de derecho privado e ingresos de derecho fiscal",
+      "recurso": "Conceptualización de temática — Foro de discusión"
+    },
+    {
+      "semana": 9,
+      "fecha": "2026-09-26",
+      "tema": "Crédito público como fuente de ingresos; El gasto público y la contratación estatal; El gasto de inversión, la planeación y los proyectos de desarrollo",
+      "recurso": "Conceptualización de temática — Control de lectura — Sistema CHIP; Portal Web DNP"
+    },
+    {
+      "semana": 10,
+      "fecha": "2026-10-03",
+      "tema": "La productividad del gasto público; El gasto y la acción comunal",
+      "recurso": "Conceptualización de temática — Control de lectura"
+    },
+    {
+      "semana": 11,
+      "fecha": "2026-10-10",
+      "tema": "Los impactos macroeconómicos del gasto público",
+      "recurso": "Conceptualización de temática — Estructura de las finanzas públicas"
+    },
+    {
+      "semana": 12,
+      "fecha": "2026-10-17",
+      "notas": "avance",
+      "tema": "Antecedentes y evolución del presupuesto; La programación y la ejecución presupuestal",
+      "recurso": "Evaluación de avance — Revisión de semanas 7-11"
+    },
+    {
+      "semana": 13,
+      "fecha": "2026-10-24",
+      "tema": "Estructura del sistema presupuestal; Equilibrio del presupuesto",
+      "recurso": "Conceptualización de temática — Hacienda pública: las finanzas del estado"
+    },
+    {
+      "semana": 14,
+      "fecha": "2026-10-31",
+      "tema": "Controles sobre el presupuesto; Los conceptos de déficit y superávit fiscal",
+      "recurso": "Conceptualización de temática — Manual de control interno"
+    },
+    {
+      "semana": 15,
+      "fecha": "2026-11-07",
+      "tema": "Presupuesto en las entidades territoriales; empresas industriales y comerciales; sociedades de economía mixta",
+      "recurso": "Conceptualización de temática — Finanzas públicas: soporte para el desarrollo"
+    },
+    {
+      "semana": 16,
+      "fecha": "2026-11-14",
+      "notas": "avance",
+      "tema": "Contabilidad y control interno público",
+      "recurso": "Evaluación final — Revisión integral de semanas 13-16"
+    }
+  ]
+}

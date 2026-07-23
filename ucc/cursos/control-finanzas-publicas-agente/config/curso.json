@@ -1,0 +1,11 @@
+{
+  "curso": "Control y Finanzas Públicas",
+  "universidad": "Universidad Cooperativa de Colombia (UCC)",
+  "dia_clase": "Viernes",
+  "horario_real": "18:30 - 20:30",
+  "duracion_real_minutos": 120,
+  "fecha_inicio": "2026-08-01",
+  "duracion_semanas": 16,
+  "dias_anticipacion": 10,
+  "profesor": "Germán Lozano Vivas"
+}
