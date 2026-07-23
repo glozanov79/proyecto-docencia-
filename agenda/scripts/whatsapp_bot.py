@@ -268,6 +268,17 @@ def whatsapp_webhook():
     return str(resp)
 
 
+@app.route("/debug", methods=["GET"])
+def debug():
+    """Debug endpoint."""
+    tokens_env = os.environ.get("GOOGLE_TOKENS_JSON")
+    return {
+        "GOOGLE_TOKENS_JSON_exists": bool(tokens_env),
+        "GOOGLE_TOKENS_JSON_length": len(tokens_env) if tokens_env else 0,
+        "ANTHROPIC_API_KEY_exists": bool(os.environ.get("ANTHROPIC_API_KEY")),
+    }, 200
+
+
 @app.route("/health", methods=["GET"])
 def health():
     """Health check."""
