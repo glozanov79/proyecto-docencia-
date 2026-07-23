@@ -9,7 +9,7 @@
   "duracion_real_minutos": 120,
   "fecha_inicio": "2026-08-03",
   "duracion_semanas": 16,
-  "dias_anticipacion": 0,
+  "dias_anticipacion": 10,
   "profesor": "Germán Lozano Vivas",
   "estructura_sesion": {
     "presentacion_minutos": 45,

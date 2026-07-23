@@ -6,7 +6,7 @@
   "horario": "18:00 - 21:00",
   "fecha_inicio": "2026-08-05",
   "duracion_semanas": 16,
-  "dias_anticipacion": 0,
+  "dias_anticipacion": 10,
   "profesor": "Germán Lozano Vivas",
   "horario_real": "18:30 - 20:20",
   "duracion_real_minutos": 110,
