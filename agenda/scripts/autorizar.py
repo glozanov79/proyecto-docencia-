@@ -1,6 +1,6 @@
 """
 autorizar.py — autorización OAuth una sola vez.
-Abre el navegador, pide permiso para Calendar y Gmail, y guarda
+Abre el navegador, pide permiso para Calendar, Gmail y Google Drive, y guarda
 el refresh_token en agenda/config/tokens.json.
 
 Uso:
@@ -18,6 +18,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 SCOPES = [
     "https://www.googleapis.com/auth/calendar.readonly",
     "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/drive",
 ]
 
 AQUI = Path(__file__).resolve().parent.parent
