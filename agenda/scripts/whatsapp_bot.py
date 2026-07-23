@@ -192,7 +192,8 @@ def whatsapp_webhook():
     incoming_media_url = request.values.get("MediaUrl0")
     from_number = request.values.get("From")
 
-    print(f"📱 Mensaje desde {from_number}: {incoming_msg}")
+    print(f"DEBUG: Mensaje recibido desde {from_number}: '{incoming_msg}'")
+    sys.stdout.flush()
 
     resp = MessagingResponse()
 
@@ -203,7 +204,11 @@ def whatsapp_webhook():
     # Procesar mensaje de texto
     tarea_info = None
     if incoming_msg:
+        print(f"DEBUG: Analizando con Claude: '{incoming_msg}'")
+        sys.stdout.flush()
         tarea_info = analizar_con_claude(incoming_msg)
+        print(f"DEBUG: Resultado de Claude: {tarea_info}")
+        sys.stdout.flush()
 
     # TODO: Procesar audio (requiere transcripción)
     # if incoming_media_url:
@@ -211,6 +216,8 @@ def whatsapp_webhook():
     #     # Transcribir...
 
     if not tarea_info:
+        print("DEBUG: No se extrajo información de la tarea")
+        sys.stdout.flush()
         resp.message("❌ No entendí la tarea. Intenta: 'Proyecto final antes del viernes'")
         return str(resp)
 
