@@ -17,12 +17,16 @@ Uso (webhook en Cloud Run):
 import json
 import os
 import sys
+import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 from io import BytesIO
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 try:
     from flask import Flask, request
@@ -56,7 +60,7 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY")
 MODEL = "claude-haiku-4-5-20251001"
 
 if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_KEY]):
-    print("ERROR: Faltan credenciales (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_API_KEY)")
+    logger.error("ERROR: Faltan credenciales (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_API_KEY)")
     sys.exit(1)
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
@@ -80,14 +84,33 @@ REGLAS:
 
 
 def cargar_credenciales_google():
-    """Carga credenciales de Google desde tokens.json."""
-    if not TOKENS_PATH.exists():
+    """Carga credenciales de Google desde env o tokens.json."""
+    creds_dict = None
+
+    # Intentar desde variable de entorno (Cloud Run)
+    tokens_env = os.environ.get("GOOGLE_TOKENS_JSON")
+    logger.info(f"DEBUG: GOOGLE_TOKENS_JSON disponible: {bool(tokens_env)}, longitud: {len(tokens_env) if tokens_env else 0}")
+    if tokens_env:
+        try:
+            creds_dict = json.loads(tokens_env)
+            logger.debug("Credenciales cargadas desde env")
+        except Exception as e:
+            logger.error(f"ERROR parsando GOOGLE_TOKENS_JSON: {e}")
+
+    # Fallback: intentar desde archivo
+    if not creds_dict and TOKENS_PATH.exists():
+        try:
+            with open(TOKENS_PATH, encoding="utf-8") as f:
+                creds_dict = json.load(f)
+            logger.debug("Credenciales cargadas desde archivo")
+        except Exception as e:
+            logger.error(f"ERROR leyendo tokens.json: {e}")
+
+    if not creds_dict:
+        logger.error("No hay credenciales de Google disponibles")
         return None
 
     try:
-        with open(TOKENS_PATH, encoding="utf-8") as f:
-            creds_dict = json.load(f)
-
         creds = Credentials.from_authorized_user_info(creds_dict, scopes=SCOPES)
 
         if creds.expired and creds.refresh_token:
@@ -95,7 +118,7 @@ def cargar_credenciales_google():
 
         return creds
     except Exception as e:
-        print(f"ERROR cargando credenciales: {e}")
+        logger.error(f"ERROR creando credenciales: {e}")
         return None
 
 
@@ -107,7 +130,7 @@ def descargar_audio(media_url):
         if response.status_code == 200:
             return response.content
     except Exception as e:
-        print(f"ERROR descargando audio: {e}")
+        logger.error(f"ERROR descargando audio: {e}")
     return None
 
 
@@ -137,7 +160,7 @@ def analizar_con_claude(texto):
         if inicio >= 0 and fin > inicio:
             return json.loads(texto_resp[inicio:fin])
     except Exception as e:
-        print(f"ERROR Claude: {e}")
+        logger.error(f"ERROR Claude: {e}")
 
     return None
 
@@ -164,7 +187,7 @@ def crear_calendar_event(service, tarea_info):
         service.events().insert(calendarId="primary", body=event).execute()
         return True
     except Exception as e:
-        print(f"ERROR Calendar: {e}")
+        logger.error(f"ERROR Calendar: {e}")
         return False
 
 
@@ -181,7 +204,7 @@ def crear_google_task(service, tarea_info):
         service.tasks().insert(tasklist="@default", body=task).execute()
         return True
     except Exception as e:
-        print(f"ERROR Tasks: {e}")
+        logger.error(f"ERROR Tasks: {e}")
         return False
 
 
@@ -192,8 +215,7 @@ def whatsapp_webhook():
     incoming_media_url = request.values.get("MediaUrl0")
     from_number = request.values.get("From")
 
-    print(f"DEBUG: Mensaje recibido desde {from_number}: '{incoming_msg}'")
-    sys.stdout.flush()
+    logger.info(f"Mensaje recibido desde {from_number}: '{incoming_msg}'")
 
     resp = MessagingResponse()
 
@@ -204,11 +226,9 @@ def whatsapp_webhook():
     # Procesar mensaje de texto
     tarea_info = None
     if incoming_msg:
-        print(f"DEBUG: Analizando con Claude: '{incoming_msg}'")
-        sys.stdout.flush()
+        logger.debug(f"Analizando con Claude: '{incoming_msg}'")
         tarea_info = analizar_con_claude(incoming_msg)
-        print(f"DEBUG: Resultado de Claude: {tarea_info}")
-        sys.stdout.flush()
+        logger.debug(f"Resultado de Claude: {tarea_info}")
 
     # TODO: Procesar audio (requiere transcripción)
     # if incoming_media_url:
@@ -216,14 +236,14 @@ def whatsapp_webhook():
     #     # Transcribir...
 
     if not tarea_info:
-        print("DEBUG: No se extrajo información de la tarea")
-        sys.stdout.flush()
+        logger.warning("No se extrajo información de la tarea")
         resp.message("❌ No entendí la tarea. Intenta: 'Proyecto final antes del viernes'")
         return str(resp)
 
     # Crear en Google Calendar + Tasks
     creds = cargar_credenciales_google()
     if not creds:
+        logger.error("No se pudieron cargar credenciales de Google")
         resp.message("⚠️ Error de autenticación. Intenta más tarde.")
         return str(resp)
 
