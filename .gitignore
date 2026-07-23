@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 node_modules/
 salidas/
+
+# Credenciales OAuth — nunca subir a git
+agenda/config/oauth_client.json
+agenda/config/tokens.json

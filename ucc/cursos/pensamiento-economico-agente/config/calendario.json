@@ -1,6 +1,11 @@
 {
   "sesiones": [
     {
+      "semana": 0,
+      "fecha": "2026-07-29",
+      "nota": "TEST — borrar después de prueba"
+    },
+    {
       "semana": 1,
       "fecha": "2026-08-03",
       "nota": null
