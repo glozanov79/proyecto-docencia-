@@ -2,8 +2,8 @@ name: Procesar tareas de emails cada 2 horas
 
 on:
   schedule:
-    - cron: '0 */2 * * *'   # cada 2 horas (UTC)
-  workflow_dispatch:        # disparo manual desde GitHub → Actions → Run workflow
+    - cron: '0 0,1,11,13,15,17,19,21,23 * * *'   # cada 2 horas, excepto 2am-11am UTC (9pm-6am Colombia)
+  workflow_dispatch:                               # disparo manual desde GitHub → Actions → Run workflow
 
 jobs:
   procesar_tareas:
