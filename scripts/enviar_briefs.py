@@ -14,6 +14,7 @@ Variables de entorno requeridas:
 
 import os
 import smtplib
+import subprocess
 import sys
 from datetime import date
 from email import encoders
@@ -117,6 +118,20 @@ def main():
         smtp.send_message(msg)
 
     print(f"Email enviado a {DESTINATARIO}")
+
+    # Subir a Google Drive
+    print("\nSincronizando con Google Drive...")
+    subir_script = BASE / "ucc" / "scripts" / "subir_a_drive.py"
+    for b in briefs:
+        brief_path = b["brief"]
+        try:
+            subprocess.run(
+                ["python", str(subir_script), str(brief_path)],
+                encoding="utf-8",
+                check=False,
+            )
+        except FileNotFoundError:
+            print(f"  ⚠ subir_a_drive.py no encontrado")
 
 
 if __name__ == "__main__":

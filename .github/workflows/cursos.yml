@@ -19,7 +19,7 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependencias Python
-        run: pip install anthropic python-pptx python-docx openpyxl
+        run: pip install anthropic python-pptx python-docx openpyxl google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
       - name: Instalar dependencias Node.js
         run: npm install -g pptxgenjs
