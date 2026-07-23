@@ -15,14 +15,6 @@ steps:
       - 'push'
       - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
 
-  # Deploy a Cloud Run
-  - name: 'gcr.io/cloud-builders/gke-deploy'
-    args:
-      - 'run'
-      - '--filename=.'
-      - '--image=gcr.io/solar-dialect-408720/whatsapp-bot:latest'
-      - '--location=us-central1'
-
 images:
   - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
 
