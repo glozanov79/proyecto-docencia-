@@ -34,3 +34,8 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DESTINATARIO: lozanogerman79@gmail.com
         run: python scripts/enviar_briefs.py
+
+      - name: Procesar tareas de emails
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python agenda/scripts/procesar_tareas_email.py

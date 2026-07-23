@@ -16,9 +16,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 sys.stdout.reconfigure(encoding="utf-8")
 
 SCOPES = [
-    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.googleapis.com/auth/calendar",
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/tasks",
 ]
 
 AQUI = Path(__file__).resolve().parent.parent
