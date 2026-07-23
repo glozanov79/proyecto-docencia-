@@ -176,13 +176,6 @@ def crear_calendar_event(service, tarea_info):
             "description": tarea_info.get("notas", ""),
             "start": {"date": tarea_info["fecha_entrega"]},
             "end": {"date": tarea_info["fecha_entrega"]},
-            "reminders": {
-                "useDefault": False,
-                "overrides": [
-                    {"method": "notification", "minutes": 24 * 60},
-                    {"method": "notification", "minutes": 60},
-                ]
-            },
         }
         service.events().insert(calendarId="primary", body=event).execute()
         return True
