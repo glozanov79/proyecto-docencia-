@@ -1,0 +1,30 @@
+steps:
+  # Build de la imagen Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
+      - '-f'
+      - 'agenda/Dockerfile'
+      - '.'
+
+  # Push a Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
+
+  # Deploy a Cloud Run
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - 'run'
+      - '--filename=.'
+      - '--image=gcr.io/solar-dialect-408720/whatsapp-bot:latest'
+      - '--location=us-central1'
+
+images:
+  - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
+
+options:
+  machineType: 'N1_HIGHCPU_8'
