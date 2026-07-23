@@ -1,0 +1,38 @@
+{
+  "sesiones": [
+    {"semana": 1, "fecha": "2026-08-06", "nota": null},
+    {"semana": 2, "fecha": "2026-08-13", "nota": null},
+    {"semana": 3, "fecha": "2026-08-20", "nota": null},
+    {"semana": 4, "fecha": "2026-08-27", "nota": null},
+    {"semana": 5, "fecha": "2026-09-03", "nota": null},
+    {"semana": 6, "fecha": "2026-09-10", "nota": "Primer avance — entrega del producto final (30%)"},
+    {"semana": 7, "fecha": "2026-09-17", "nota": null},
+    {"semana": 8, "fecha": "2026-09-24", "nota": null},
+    {"semana": 9, "fecha": "2026-10-01", "nota": null},
+    {"semana": 10, "fecha": "2026-10-08", "nota": null},
+    {"semana": 11, "fecha": "2026-10-15", "nota": null},
+    {"semana": 12, "fecha": "2026-10-22", "nota": "Segundo avance — entrega del producto final (30%)"},
+    {"semana": 13, "fecha": "2026-10-29", "nota": null},
+    {"semana": 14, "fecha": "2026-11-05", "nota": null},
+    {"semana": 15, "fecha": "2026-11-12", "nota": null},
+    {"semana": 16, "fecha": "2026-11-19", "nota": "Tercer avance — entrega del producto final (40%)"}
+  ],
+  "temario": [
+    {"semana": 1, "tema": "Presentación del contenido, justificación y metas", "recurso": "Aprendizaje centrado en la escogencia de 10 acciones del índice S&P500"},
+    {"semana": 2, "tema": "Marco institucional; Teorías explicativas del tipo de cambio", "recurso": "Gobernanza económica y financiera global"},
+    {"semana": 3, "tema": "Teorías explicativas del tipo de cambio y ajustes en balanza de pagos", "recurso": "Paridad de poder adquisitivo; enfoque monetario"},
+    {"semana": 4, "tema": "Mercado de divisas", "recurso": "Estructura operativa; arbitraje; Forex"},
+    {"semana": 5, "tema": "Mercados bancarios internacionales", "recurso": "Créditos internacionales; plazas bancarias"},
+    {"semana": 6, "tema": "Primer avance", "recurso": "Entrega de producto final con sustentación"},
+    {"semana": 7, "tema": "Mercados internacionales de deuda", "recurso": "Emisiones de bonos; calificación crediticia"},
+    {"semana": 8, "tema": "Mercados internacionales de acciones", "recurso": "Inversión en mercados bursátiles extranjeros"},
+    {"semana": 9, "tema": "Mercados de materias primas; Gestión y cobertura del riesgo de cambio", "recurso": "Estrategias especulativas; análisis de riesgos"},
+    {"semana": 10, "tema": "Marco regulador internacional para bancos; Determinación del tipo de cambio", "recurso": "Basilea I, II, III; tipos de cambio de equilibrio"},
+    {"semana": 11, "tema": "Influencia del gobierno en tipos de cambio; Relación inflación-interés-tipo cambio", "recurso": "Intervención gubernamental; paridad de poder adquisitivo"},
+    {"semana": 12, "tema": "Segundo avance", "recurso": "Entrega de producto final con sustentación"},
+    {"semana": 13, "tema": "Elaboración de pronósticos del tipo de cambio; Fusiones y Adquisiciones internacionales", "recurso": "Métodos de pronóstico; estrategia empresarial"},
+    {"semana": 14, "tema": "Análisis del riesgo país; Análisis de riesgo financiero", "recurso": "Factores de riesgo político y financiero; medición"},
+    {"semana": 15, "tema": "Finanzas Corporativas; Franquicias", "recurso": "Composición organizacional; creación de valor"},
+    {"semana": 16, "tema": "Tercer avance — producto final", "recurso": "Entrega de acciones escogidas del S&P500 con análisis de rentabilidad-riesgo"}
+  ]
+}

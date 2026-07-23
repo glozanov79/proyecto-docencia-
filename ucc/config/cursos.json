@@ -19,6 +19,11 @@
       "nombre": "Inteligencia Artificial en Inversiones",
       "carpeta": "cursos/ia-inversiones-agente",
       "activo": true
+    },
+    {
+      "nombre": "Finanzas Internacionales",
+      "carpeta": "cursos/finanzas-internacionales-agente",
+      "activo": true
     }
   ]
 }

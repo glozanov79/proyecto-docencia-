@@ -1,0 +1,18 @@
+{
+  "curso": "Finanzas Internacionales",
+  "universidad": "Universidad Cooperativa de Colombia (UCC)",
+  "modalidad": "Presencial",
+  "dia_clase": "Jueves",
+  "horario": "18:00 - 21:00",
+  "horario_real": "18:30 - 20:30",
+  "duracion_real_minutos": 120,
+  "fecha_inicio": "2026-08-06",
+  "duracion_semanas": 16,
+  "dias_anticipacion": 10,
+  "profesor": "Anibal Charry Quintero",
+  "estructura_sesion": {
+    "presentacion_minutos": 40,
+    "ejercicios_profesor_minutos": 40,
+    "ejercicios_estudiantes_minutos": 40
+  }
+}
