@@ -1,0 +1,27 @@
+name: Procesar tareas de emails cada 2 horas
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # cada 2 horas (UTC)
+  workflow_dispatch:        # disparo manual desde GitHub → Actions → Run workflow
+
+jobs:
+  procesar_tareas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias Python
+        run: pip install anthropic google-auth-oauthlib google-auth-httplib2 google-api-python-client
+
+      - name: Procesar tareas de emails (outlook-reenviado)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python agenda/scripts/procesar_tareas_email.py
