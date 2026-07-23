@@ -24,7 +24,7 @@ from docx.shared import Pt
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM_PROMPT = """Eres un curador de recursos educativos en YouTube para un curso
 universitario. Vas a recibir el brief de una clase y debes buscar, con la herramienta

@@ -23,7 +23,7 @@ from openpyxl.utils import get_column_letter
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM_PROMPT = """Eres un diseñador de talleres académicos para un curso universitario.
 Vas a recibir el brief de una clase y debes diseñar un taller de 8 a 10 ejercicios
