@@ -305,7 +305,7 @@ def whatsapp_webhook():
 
     # ─ Nueva tarea ─
     if not incoming_msg:
-        resp.message("👋 Envía una tarea para crear un recordatorio.")
+        resp.message("👋 Envía una NUEVA tarea para crear un recordatorio.")
         return str(resp)
 
     tarea_info = analizar_con_claude(incoming_msg)
