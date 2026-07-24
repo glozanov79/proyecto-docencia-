@@ -1,17 +1,17 @@
 """
-whatsapp_bot.py — Bot de WhatsApp para crear tareas verbales.
+whatsapp_bot.py — Bot de WhatsApp para crear tareas académicas con confirmación.
 
-Recibe notas de voz → Transcribe → Extrae tarea → Crea Calendar + Tasks
-Responde confirmación en WhatsApp.
+Flujo:
+1. Usuario envía tarea → Bot extrae y resume
+2. Bot pregunta confirmación y guarda en Firestore
+3. Usuario responde "sí" → Bot crea evento en Calendar + Tasks
+4. Usuario responde "no" → Bot cancela
 
 Requiere:
-- TWILIO_ACCOUNT_SID
-- TWILIO_AUTH_TOKEN
+- TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 - ANTHROPIC_API_KEY
-- Google OAuth tokens (calendario, tareas)
-
-Uso (webhook en Cloud Run):
-    gunicorn --bind :8080 whatsapp_bot:app
+- GOOGLE_TOKENS_JSON (Google OAuth)
+- GOOGLE_CLOUD_PROJECT (para Firestore)
 """
 
 import json
@@ -20,7 +20,6 @@ import sys
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
-from io import BytesIO
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
@@ -37,33 +36,44 @@ try:
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
     import requests
-except ImportError:
-    print("ERROR: pip install flask twilio anthropic google-auth-oauthlib google-api-python-client requests")
+    import firebase_admin
+    from firebase_admin import credentials, firestore
+except ImportError as e:
+    logger.error(f"ERROR: {e}")
     sys.exit(1)
 
 app = Flask(__name__)
 
-# Credenciales Twilio
+# ─── Credenciales ───────────────────────────────────────────────────────────
+
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
-TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886")
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY")
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "solar-dialect-408720")
 
-# Credenciales Google
 TOKENS_PATH = Path(__file__).resolve().parent.parent / "config" / "tokens.json"
 SCOPES = [
     "https://www.googleapis.com/auth/calendar",
     "https://www.googleapis.com/auth/tasks",
 ]
 
-# Credenciales Anthropic
-ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY")
-MODEL = "claude-haiku-4-5-20251001"
-
 if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_KEY]):
-    logger.error("ERROR: Faltan credenciales (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_API_KEY)")
+    logger.error("ERROR: Faltan credenciales")
     sys.exit(1)
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+# ─── Firebase Firestore ──────────────────────────────────────────────────────
+
+try:
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(options={"projectId": PROJECT_ID})
+    db = firestore.client()
+except Exception as e:
+    logger.warning(f"Firebase init warning: {e}. Continuando sin estado persistente.")
+    db = None
+
+# ─── Claude System Prompt ────────────────────────────────────────────────────
 
 SYSTEM_PROMPT = """Eres un asistente especializado en extraer tareas académicas de mensajes en español.
 Tu tarea es analizar el mensaje y extraer información sobre qué tarea académica se debe realizar y cuándo.
@@ -99,14 +109,13 @@ NOTAS:
 - Si es simple = null
 """
 
+# ─── Funciones de utilidad ──────────────────────────────────────────────────
 
 def cargar_credenciales_google():
     """Carga credenciales de Google desde env o tokens.json."""
     creds_dict = None
 
-    # Intentar desde variable de entorno (Cloud Run)
     tokens_env = os.environ.get("GOOGLE_TOKENS_JSON")
-    logger.info(f"DEBUG: GOOGLE_TOKENS_JSON disponible: {bool(tokens_env)}, longitud: {len(tokens_env) if tokens_env else 0}")
     if tokens_env:
         try:
             creds_dict = json.loads(tokens_env)
@@ -114,7 +123,6 @@ def cargar_credenciales_google():
         except Exception as e:
             logger.error(f"ERROR parsando GOOGLE_TOKENS_JSON: {e}")
 
-    # Fallback: intentar desde archivo
     if not creds_dict and TOKENS_PATH.exists():
         try:
             with open(TOKENS_PATH, encoding="utf-8") as f:
@@ -129,33 +137,12 @@ def cargar_credenciales_google():
 
     try:
         creds = Credentials.from_authorized_user_info(creds_dict, scopes=SCOPES)
-
         if creds.expired and creds.refresh_token:
             creds.refresh(Request())
-
         return creds
     except Exception as e:
         logger.error(f"ERROR creando credenciales: {e}")
         return None
-
-
-def descargar_audio(media_url):
-    """Descarga archivo de audio de Twilio."""
-    try:
-        auth = (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-        response = requests.get(media_url, auth=auth)
-        if response.status_code == 200:
-            return response.content
-    except Exception as e:
-        logger.error(f"ERROR descargando audio: {e}")
-    return None
-
-
-def transcribir_audio(audio_content):
-    """Transcribe audio usando Google Speech-to-Text (para Cloud Run)."""
-    # Nota: En esta versión simplificada, asumimos que Twilio + Anthropic
-    # pueden procesar. Para producción, usar google.cloud.speech
-    return None
 
 
 def analizar_con_claude(texto):
@@ -163,30 +150,65 @@ def analizar_con_claude(texto):
     try:
         client = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
         response = client.messages.create(
-            model=MODEL,
+            model="claude-haiku-4-5-20251001",
             max_tokens=500,
             system=SYSTEM_PROMPT,
-            messages=[
-                {"role": "user", "content": f"Mensaje: {texto}"}
-            ],
+            messages=[{"role": "user", "content": f"Mensaje: {texto}"}],
         )
         texto_resp = response.content[0].text.strip()
-
         inicio = texto_resp.find("{")
         fin = texto_resp.rfind("}") + 1
         if inicio >= 0 and fin > inicio:
             return json.loads(texto_resp[inicio:fin])
     except Exception as e:
         logger.error(f"ERROR Claude: {e}")
-
     return None
+
+
+def guardar_tarea_pendiente(from_number, tarea_info):
+    """Guarda tarea propuesta en Firestore."""
+    if not db:
+        return False
+    try:
+        db.collection("tareas_pendientes").document(from_number).set({
+            "tarea_info": tarea_info,
+            "timestamp": datetime.now()
+        })
+        return True
+    except Exception as e:
+        logger.error(f"ERROR guardando en Firestore: {e}")
+        return False
+
+
+def obtener_tarea_pendiente(from_number):
+    """Obtiene tarea propuesta de Firestore."""
+    if not db:
+        return None
+    try:
+        doc = db.collection("tareas_pendientes").document(from_number).get()
+        if doc.exists:
+            return doc.to_dict().get("tarea_info")
+    except Exception as e:
+        logger.error(f"ERROR leyendo de Firestore: {e}")
+    return None
+
+
+def eliminar_tarea_pendiente(from_number):
+    """Elimina tarea propuesta de Firestore."""
+    if not db:
+        return True
+    try:
+        db.collection("tareas_pendientes").document(from_number).delete()
+        return True
+    except Exception as e:
+        logger.error(f"ERROR eliminando de Firestore: {e}")
+        return False
 
 
 def crear_calendar_event(service, tarea_info):
     """Crea evento en Google Calendar."""
     if not tarea_info.get("fecha_entrega"):
         return False
-
     try:
         event = {
             "summary": f"[Tarea WhatsApp] {tarea_info['tarea']}",
@@ -210,7 +232,6 @@ def crear_google_task(service, tarea_info):
         }
         if tarea_info.get("fecha_entrega"):
             task["due"] = tarea_info["fecha_entrega"] + "T23:59:59Z"
-
         service.tasks().insert(tasklist="@default", body=task).execute()
         return True
     except Exception as e:
@@ -218,63 +239,82 @@ def crear_google_task(service, tarea_info):
         return False
 
 
+def formatear_resumen(tarea_info):
+    """Formatea resumen de tarea para mostrar."""
+    fecha = tarea_info.get("fecha_entrega") or "Sin fecha"
+    urgencia = tarea_info.get("urgencia", "normal").upper()
+    return (
+        f"📋 *Resumen*\n"
+        f"✏️ {tarea_info['tarea']}\n"
+        f"📅 {fecha}\n"
+        f"⚡ {urgencia}\n\n"
+        f"¿Confirmas? Responde *sí* o *no*"
+    )
+
+
+# ─── Rutas ──────────────────────────────────────────────────────────────────
+
 @app.route("/whatsapp", methods=["POST"])
 def whatsapp_webhook():
-    """Webhook que recibe mensajes de WhatsApp desde Twilio."""
-    incoming_msg = request.values.get("Body", "").strip()
-    incoming_media_url = request.values.get("MediaUrl0")
+    """Webhook de Twilio para WhatsApp."""
+    incoming_msg = request.values.get("Body", "").strip().lower()
     from_number = request.values.get("From")
 
-    logger.info(f"Mensaje recibido desde {from_number}: '{incoming_msg}'")
+    logger.info(f"Mensaje de {from_number}: '{incoming_msg}'")
 
     resp = MessagingResponse()
 
-    if not incoming_msg and not incoming_media_url:
-        resp.message("Hola 👋 Soy un bot de tareas. Envía un mensaje con tu tarea.")
+    # ─ Respuestas a confirmación ─
+    if incoming_msg in ["sí", "si", "yes", "confirmo", "confirma", "ok", "okey"]:
+        tarea_info = obtener_tarea_pendiente(from_number)
+        if not tarea_info:
+            resp.message("❌ No hay tarea pendiente. Envía una nueva.")
+            return str(resp)
+
+        creds = cargar_credenciales_google()
+        if not creds:
+            resp.message("⚠️ Error de autenticación. Intenta más tarde.")
+            return str(resp)
+
+        calendar_service = build("calendar", "v3", credentials=creds)
+        tasks_service = build("tasks", "v1", credentials=creds)
+
+        cal_ok = crear_calendar_event(calendar_service, tarea_info)
+        task_ok = crear_google_task(tasks_service, tarea_info)
+
+        eliminar_tarea_pendiente(from_number)
+
+        if cal_ok or task_ok:
+            resp.message(
+                f"✅ ¡Tarea creada!\n"
+                f"📝 {tarea_info['tarea']}\n"
+                f"📅 {tarea_info.get('fecha_entrega', 'Sin fecha')}\n"
+                f"⚡ {tarea_info.get('urgencia', 'normal').upper()}"
+            )
+        else:
+            resp.message("❌ Error creando tarea. Intenta más tarde.")
         return str(resp)
 
-    # Procesar mensaje de texto
-    tarea_info = None
-    if incoming_msg:
-        logger.debug(f"Analizando con Claude: '{incoming_msg}'")
-        tarea_info = analizar_con_claude(incoming_msg)
-        logger.debug(f"Resultado de Claude: {tarea_info}")
+    # ─ Cancelación ─
+    if incoming_msg in ["no", "nope", "cancel", "cancela"]:
+        if eliminar_tarea_pendiente(from_number):
+            resp.message("❌ Tarea cancelada.")
+        else:
+            resp.message("No había tarea pendiente.")
+        return str(resp)
 
-    # TODO: Procesar audio (requiere transcripción)
-    # if incoming_media_url:
-    #     audio = descargar_audio(incoming_media_url)
-    #     # Transcribir...
+    # ─ Nueva tarea ─
+    if not incoming_msg:
+        resp.message("👋 Envía una tarea para crear un recordatorio.")
+        return str(resp)
 
+    tarea_info = analizar_con_claude(incoming_msg)
     if not tarea_info:
-        logger.warning("No se extrajo información de la tarea")
         resp.message("❌ No entendí la tarea. Intenta: 'Proyecto final antes del viernes'")
         return str(resp)
 
-    # Crear en Google Calendar + Tasks
-    creds = cargar_credenciales_google()
-    if not creds:
-        logger.error("No se pudieron cargar credenciales de Google")
-        resp.message("⚠️ Error de autenticación. Intenta más tarde.")
-        return str(resp)
-
-    calendar_service = build("calendar", "v3", credentials=creds)
-    tasks_service = build("tasks", "v1", credentials=creds)
-
-    cal_ok = crear_calendar_event(calendar_service, tarea_info)
-    task_ok = crear_google_task(tasks_service, tarea_info)
-
-    if cal_ok or task_ok:
-        fecha_str = tarea_info.get("fecha_entrega", "sin fecha")
-        urgencia = tarea_info.get("urgencia", "normal")
-        resp.message(
-            f"✅ Tarea creada\n"
-            f"📝 {tarea_info['tarea']}\n"
-            f"📅 {fecha_str}\n"
-            f"⚡ {urgencia.upper()}"
-        )
-    else:
-        resp.message("❌ Error creando tarea. Intenta más tarde.")
-
+    guardar_tarea_pendiente(from_number, tarea_info)
+    resp.message(formatear_resumen(tarea_info))
     return str(resp)
 
 
@@ -284,8 +324,8 @@ def debug():
     tokens_env = os.environ.get("GOOGLE_TOKENS_JSON")
     return {
         "GOOGLE_TOKENS_JSON_exists": bool(tokens_env),
-        "GOOGLE_TOKENS_JSON_length": len(tokens_env) if tokens_env else 0,
         "ANTHROPIC_API_KEY_exists": bool(os.environ.get("ANTHROPIC_API_KEY")),
+        "FIRESTORE_enabled": db is not None,
     }, 200
 
 
@@ -296,5 +336,4 @@ def health():
 
 
 if __name__ == "__main__":
-    # Local testing
     app.run(debug=True, port=8080)
