@@ -4,6 +4,8 @@ steps:
     args:
       - 'build'
       - '-t'
+      - 'gcr.io/solar-dialect-408720/whatsapp-bot:$BUILD_ID'
+      - '-t'
       - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
       - '-f'
       - 'agenda/Dockerfile'
@@ -13,9 +15,15 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
+      - 'gcr.io/solar-dialect-408720/whatsapp-bot:$BUILD_ID'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
       - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
 
 images:
+  - 'gcr.io/solar-dialect-408720/whatsapp-bot:$BUILD_ID'
   - 'gcr.io/solar-dialect-408720/whatsapp-bot:latest'
 
 options:
