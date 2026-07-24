@@ -308,13 +308,19 @@ def whatsapp_webhook():
         resp.message("👋 Envía una NUEVA tarea para crear un recordatorio.")
         return str(resp)
 
+    logger.info(f"Analizando con Claude: '{incoming_msg}'")
     tarea_info = analizar_con_claude(incoming_msg)
+    logger.info(f"Resultado de Claude: {tarea_info}")
     if not tarea_info:
         resp.message("❌ No entendí la tarea. Intenta: 'Proyecto final antes del viernes'")
         return str(resp)
 
+    logger.info(f"Guardando tarea pendiente...")
     guardar_tarea_pendiente(from_number, tarea_info)
-    resp.message(formatear_resumen(tarea_info))
+    logger.info(f"Enviando resumen...")
+    resumen = formatear_resumen(tarea_info)
+    logger.info(f"Resumen: {resumen}")
+    resp.message(resumen)
     return str(resp)
 
 
