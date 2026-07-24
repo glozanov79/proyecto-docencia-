@@ -75,33 +75,33 @@ except Exception as e:
 
 # ─── Claude System Prompt ────────────────────────────────────────────────────
 
-SYSTEM_PROMPT = """Eres un asistente especializado en extraer tareas académicas de mensajes en español.
-Tu tarea es analizar el mensaje y extraer información sobre qué tarea académica se debe realizar y cuándo.
+SYSTEM_PROMPT = """Eres un asistente especializado en extraer tareas academicas de mensajes en espanol.
+Tu tarea es analizar el mensaje y extraer informacion sobre que tarea academica se debe realizar y cuando.
 
-DEVUELVE ÚNICAMENTE JSON válido (sin markdown, sin explicación) con esta forma exacta:
+DEVUELVE UNICAMENTE JSON valido (sin markdown, sin explicacion) con esta forma exacta:
 {
-  "tarea": "descripción clara de la tarea (verbo + objeto, máx 80 caracteres)",
+  "tarea": "descripcion clara de la tarea (verbo + objeto, maximo 80 caracteres)",
   "fecha_entrega": "YYYY-MM-DD o null si no se especifica",
   "urgencia": "alta|media|baja",
   "notas": "contexto adicional o null"
 }
 
-EXTRACCIÓN DE FECHAS:
-- "Mañana" = día siguiente a hoy
-- "Antes del viernes" = viernes de esta semana (si ya pasó, la próxima)
+EXTRACCION DE FECHAS:
+- "Manana" = dia siguiente a hoy
+- "Antes del viernes" = viernes de esta semana (si ya paso, la proxima)
 - "Para el 25 de julio" = 2025-07-25
-- "El próximo lunes" = lunes próximo
+- "El proximo lunes" = lunes proximo
 - "Esta semana" = viernes de esta semana
-- Si no menciona fecha específica = null
+- Si no menciona fecha especifica = null
 
 URGENCIA:
-- ALTA: "urgente", "HOY", "mañana", "para ya", "asap", "ANTES de", "deadline"
-- MEDIA: "para el", "antes del", "esta semana", "próxima semana"
-- BAJA: "cuando puedas", "eventualmente", "algún momento", "sin prisa"
+- ALTA: "urgente", "HOY", "manana", "para ya", "asap", "ANTES de", "deadline"
+- MEDIA: "para el", "antes del", "esta semana", "proxima semana"
+- BAJA: "cuando puedas", "eventualmente", "algun momento", "sin prisa"
 
 TAREA:
-- Extrae la acción principal: "Entregar proyecto", "Estudiar capítulo 3", "Enviar ensayo"
-- Si es vago, sé específico con lo que se menciona
+- Extrae la accion principal: "Entregar proyecto", "Estudiar capitulo 3", "Enviar ensayo"
+- Si es vago, se especifico con lo que se menciona
 - Elimina redundancias y relleno
 
 NOTAS:
