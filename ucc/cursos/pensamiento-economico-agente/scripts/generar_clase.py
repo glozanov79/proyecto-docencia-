@@ -168,6 +168,13 @@ def main():
     curso = cargar_json(BASE / "config" / "curso.json")
     calendario = cargar_json(BASE / "config" / "calendario.json")
 
+    # No generar viernes ni sábados
+    dia_semana = hoy().weekday()  # 0=lunes, 4=viernes, 5=sábado
+    if dia_semana in [4, 5]:
+        dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+        print(f"Hoy es {dias[dia_semana]}. No se genera material los viernes ni sábados.")
+        return
+
     print(f"Mini-agente listo para: {curso['curso']} ({curso['universidad']})")
     print(f"Sesiones cargadas: {len(calendario['sesiones'])}")
 
