@@ -65,21 +65,38 @@ if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ANTHROPIC_KEY]):
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
-SYSTEM_PROMPT = """Eres un asistente que analiza mensajes de voz transcritos y extrae tareas.
-Dado un mensaje, devuelve ÚNICAMENTE JSON válido (sin markdown, sin texto adicional) con esta forma:
+SYSTEM_PROMPT = """Eres un asistente especializado en extraer tareas académicas de mensajes en español.
+Tu tarea es analizar el mensaje y extraer información sobre qué tarea académica se debe realizar y cuándo.
 
+DEVUELVE ÚNICAMENTE JSON válido (sin markdown, sin explicación) con esta forma exacta:
 {
-  "tarea": "descripción clara de la tarea",
+  "tarea": "descripción clara de la tarea (verbo + objeto, máx 80 caracteres)",
   "fecha_entrega": "YYYY-MM-DD o null si no se especifica",
   "urgencia": "alta|media|baja",
-  "notas": "detalles adicionales o null"
+  "notas": "contexto adicional o null"
 }
 
-REGLAS:
-- Busca palabras clave: "entregar", "deadline", "antes del", "para el", "hasta el"
-- Si menciona día específico, inferir fecha en YYYY-MM-DD
-- urgencia: "alta" si dice "urgente"/"ASAP"/"hoy"/"mañana", "baja" si es general
-- Sé conciso en "tarea" (máx 100 caracteres)
+EXTRACCIÓN DE FECHAS:
+- "Mañana" = día siguiente a hoy
+- "Antes del viernes" = viernes de esta semana (si ya pasó, la próxima)
+- "Para el 25 de julio" = 2025-07-25
+- "El próximo lunes" = lunes próximo
+- "Esta semana" = viernes de esta semana
+- Si no menciona fecha específica = null
+
+URGENCIA:
+- ALTA: "urgente", "HOY", "mañana", "para ya", "asap", "ANTES de", "deadline"
+- MEDIA: "para el", "antes del", "esta semana", "próxima semana"
+- BAJA: "cuando puedas", "eventualmente", "algún momento", "sin prisa"
+
+TAREA:
+- Extrae la acción principal: "Entregar proyecto", "Estudiar capítulo 3", "Enviar ensayo"
+- Si es vago, sé específico con lo que se menciona
+- Elimina redundancias y relleno
+
+NOTAS:
+- Si menciona asignatura, profesor, o detalles = incluye en notas
+- Si es simple = null
 """
 
 
