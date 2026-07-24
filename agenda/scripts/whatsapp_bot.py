@@ -242,7 +242,7 @@ def crear_google_task(service, tarea_info):
 def formatear_resumen(tarea_info):
     """Formatea resumen de tarea para mostrar."""
     fecha = tarea_info.get("fecha_entrega") or "Sin fecha"
-    urgencia = tarea_info.get("urgencia", "normal").upper()
+    urgencia = (tarea_info.get("urgencia") or "normal").upper()
     return (
         f"📋 *Resumen*\n"
         f"✏️ {tarea_info['tarea']}\n"
@@ -289,7 +289,7 @@ def whatsapp_webhook():
                 f"✅ ¡Tarea creada!\n"
                 f"📝 {tarea_info['tarea']}\n"
                 f"📅 {tarea_info.get('fecha_entrega', 'Sin fecha')}\n"
-                f"⚡ {tarea_info.get('urgencia', 'normal').upper()}"
+                f"⚡ {(tarea_info.get('urgencia') or 'normal').upper()}"
             )
         else:
             resp.message("❌ Error creando tarea. Intenta más tarde.")
