@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# Build timestamp: 2026-07-24T03:31:00Z
+# Build timestamp: 2026-07-24T03:40:00Z
 WORKDIR /app
 
 # Copiar requirements
