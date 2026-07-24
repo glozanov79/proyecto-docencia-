@@ -19,8 +19,13 @@ import json
 import os
 import subprocess
 import sys
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
+
+from google.auth.transport.requests import Request
+from google.oauth2.service_account import Credentials
+from google.auth.exceptions import GoogleAuthError
+from googleapiclient.discovery import build
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
@@ -43,6 +48,41 @@ def sesion_para(fecha_iso, calendario):
         if s["fecha"] == fecha_iso:
             return s
     return None
+
+
+def crear_task_revisar_cursos():
+    """Crea un Google Task 'Revisar cursos' para mañana a las 7 AM."""
+    try:
+        tokens_path = BASE / "config" / "tokens.json"
+        if not tokens_path.exists():
+            print("⚠ No se encontró tokens.json — no se creará el task automático")
+            return False
+
+        from google.oauth2.service_account import Credentials
+        from googleapiclient.discovery import build
+
+        creds = Credentials.from_service_account_file(
+            str(tokens_path),
+            scopes=["https://www.googleapis.com/auth/tasks"]
+        )
+        service = build("tasks", "v1", credentials=creds)
+
+        manana = hoy() + timedelta(days=1)
+        fecha_iso = manana.isoformat()
+
+        task = {
+            "title": "Revisar cursos",
+            "due": f"{fecha_iso}T07:00:00",
+            "notes": "Verificar que los briefs se generaron correctamente",
+        }
+
+        service.tasks().insert(tasklist="@default", body=task).execute()
+        print(f"✓ Task 'Revisar cursos' creado para mañana a las 7 AM")
+        return True
+
+    except Exception as e:
+        print(f"⚠ Error al crear task: {e}")
+        return False
 
 
 def revisar_curso(curso_info):
@@ -145,6 +185,9 @@ def main():
                 if r.returncode != 0:
                     print(f"ERROR en {script_extra}:")
                     print(r.stderr)
+
+        print("\n--- Creando reminder de revisión ---")
+        crear_task_revisar_cursos()
     else:
         print("Corre con --ejecutar para generar los briefs automáticamente.")
 
