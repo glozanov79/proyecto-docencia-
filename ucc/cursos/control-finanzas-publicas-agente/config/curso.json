@@ -7,5 +7,10 @@
   "fecha_inicio": "2026-08-01",
   "duracion_semanas": 16,
   "dias_anticipacion": 10,
-  "profesor": "Germán Lozano Vivas"
+  "profesor": "Germán Lozano Vivas",
+  "estructura_sesion": {
+    "presentacion_minutos": 40,
+    "ejercicios_profesor_minutos": 40,
+    "ejercicios_estudiantes_minutos": 40
+  }
 }
