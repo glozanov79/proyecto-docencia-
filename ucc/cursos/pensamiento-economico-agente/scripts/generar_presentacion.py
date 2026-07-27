@@ -31,25 +31,32 @@ def generar_contenido_claude(tema, objetivos, contenido, recursos):
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    prompt = f"""Genera un JSON valido con contenido educativo profesional.
+    prompt = f"""INSTRUCCION CRITICA: Genera contenido de presentación universitaria RIGUROSA, PROFESIONAL y EXPANDIDA.
 
 TEMA: {tema}
 OBJETIVOS: {objetivos}
 CONTENIDO: {contenido}
-RECURSOS: {recursos}
+REFERENCIAS: {recursos}
 
-Responde SOLO con JSON valido (sin markdown). Usa este formato exactamente:
+REQUERIMIENTOS: Autores reales (3-6) con años. Casos reales (2+). Datos verificables. IA moderna. Pensamiento crítico. Actividad práctica. Referencias APA 7.
+
+RESPONDE SOLO JSON (sin markdown):
 {{
-  "resumen": "Texto de 1-2 lineas",
-  "conceptos": ["concepto1", "concepto2", "concepto3", "concepto4", "concepto5"],
-  "marco_teorico": "Parrafo sobre teoria. Otro parrafo. Otro parrafo.",
-  "ejemplos": ["Ejemplo1 concreto", "Ejemplo2 del mundo real", "Ejemplo3 aplicable"],
-  "actividades": ["Actividad1 practica", "Actividad2 interactiva", "Actividad3"],
-  "lecturas": ["Libro o articulo", "Referencia", "URL o fuente"],
-  "preguntas": ["Pregunta1?", "Pregunta2?", "Pregunta3?"]
+  "autores_clave": ["Autor1 (Año): Aporte específico", "Autor2 (Año): Contribución", "Autor3 (Año): Perspectiva"],
+  "marco_conceptual": "Definición exhaustiva. Componentes. Relaciones. 3-4 párrafos.",
+  "evolucion_historica": "Origen. Pensadores. Evolución. Estado actual. Debates.",
+  "caso_real_1": "CONTEXTO específico. HECHOS concretos. CONCEPTO ilustrado. LECCION aplicable.",
+  "caso_real_2": "Caso contrastante internacional",
+  "datos_evidencia": "Estadísticas con fuente y año. Mínimo 3 datos",
+  "aplicacion_ia": "Herramienta/algoritmo usado en práctica profesional",
+  "debate_critico": "Controversias. Errores. Sesgos. Perspectivas en tensión",
+  "actividad_clase": "Ejercicio practico 15-20 min. Instrucciones claras",
+  "sintesis_5ideas": "5 conceptos clave para llevar",
+  "preguntas_profundas": ["Pregunta análisis crítico", "Pregunta aplicación real", "Pregunta impacto futuro", "Pregunta perspectivas", "Pregunta integración"],
+  "referencias_apa": ["Formato APA 7. Mínimo 6-8 referencias reales"]
 }}
 
-NO incluyas comillas dobles dentro de los valores. NO incluyas markdown."""
+CALIDAD: Expandido (3-4 frases por campo). Académico riguroso. SIN inventar. Inspirador. SIN comillas dentro. SIN markdown."""
 
     message = client.messages.create(
         model="claude-opus-4-8",
