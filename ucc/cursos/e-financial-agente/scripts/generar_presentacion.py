@@ -147,7 +147,7 @@ CALIDAD (CRÍTICO):
 
     message = client.messages.create(
         model="claude-opus-4-8",
-        max_tokens=4500,
+        max_tokens=5500,
         messages=[{"role": "user", "content": prompt}]
     )
 
@@ -159,7 +159,8 @@ CALIDAD (CRÍTICO):
         return resultado
     except Exception as e:
         print(f"ERROR al parsear JSON: {e}")
-        print(f"Texto recibido: {texto[:200]}")
+        print(f"Texto recibido (primeros 500 chars):\n{texto[:500]}")
+        print(f"Texto recibido (últimos 500 chars):\n{texto[-500:]}")
         return None
 
 def crear_presentacion(brief_path):
