@@ -177,34 +177,65 @@ def crear_presentacion(brief_path):
     objetivos_list = [l.strip() for l in objetivos.split('\n') if l.strip()]
     agregar_contenido_slide("Objetivos", objetivos_list[:5])
 
-    resumen = contenido_expandido.get("resumen", "")
-    agregar_contenido_slide("Resumen Ejecutivo", [resumen])
+    # Autores clave
+    autores = contenido_expandido.get("autores_clave", [])
+    if isinstance(autores, list):
+        agregar_contenido_slide("Autores Clave", autores[:6])
 
-    conceptos = contenido_expandido.get("conceptos", [])
-    if isinstance(conceptos, list):
-        agregar_contenido_slide("Conceptos Clave", conceptos[:6])
+    # Marco conceptual
+    marco = contenido_expandido.get("marco_conceptual", "")
+    if marco:
+        agregar_contenido_slide("Marco Conceptual", [marco])
 
-    marco = contenido_expandido.get("marco_teorico", [])
-    if isinstance(marco, list):
-        agregar_contenido_slide("Marco Teorico", marco[:4])
-    elif isinstance(marco, str):
-        agregar_contenido_slide("Marco Teorico", [marco])
+    # Evolución histórica
+    evolucion = contenido_expandido.get("evolucion_historica", "")
+    if evolucion:
+        agregar_contenido_slide("Evolución Histórica", [evolucion])
 
-    ejemplos = contenido_expandido.get("ejemplos", [])
-    if isinstance(ejemplos, list):
-        agregar_contenido_slide("Ejemplos Practicos", ejemplos[:4])
+    # Caso real 1
+    caso1 = contenido_expandido.get("caso_real_1", "")
+    if caso1:
+        agregar_contenido_slide("Caso Real 1", [caso1])
 
-    actividades = contenido_expandido.get("actividades", [])
-    if isinstance(actividades, list):
-        agregar_contenido_slide("Actividades", actividades[:3])
+    # Caso real 2
+    caso2 = contenido_expandido.get("caso_real_2", "")
+    if caso2:
+        agregar_contenido_slide("Caso Real 2", [caso2])
 
-    lecturas = contenido_expandido.get("lecturas", [])
-    if isinstance(lecturas, list):
-        agregar_contenido_slide("Lecturas Complementarias", lecturas[:5])
+    # Datos y evidencia
+    datos = contenido_expandido.get("datos_evidencia", "")
+    if datos:
+        agregar_contenido_slide("Datos y Evidencia", [datos])
 
-    preguntas = contenido_expandido.get("preguntas", [])
+    # Aplicación IA
+    aplicacion_ia = contenido_expandido.get("aplicacion_ia", "")
+    if aplicacion_ia:
+        agregar_contenido_slide("Aplicación IA", [aplicacion_ia])
+
+    # Debate crítico
+    debate = contenido_expandido.get("debate_critico", "")
+    if debate:
+        agregar_contenido_slide("Debate Crítico", [debate])
+
+    # Actividad clase
+    actividad = contenido_expandido.get("actividad_clase", "")
+    if actividad:
+        agregar_contenido_slide("Actividad en Clase", [actividad])
+
+    # Síntesis
+    sintesis = contenido_expandido.get("sintesis_5ideas", "")
+    if sintesis:
+        agregar_contenido_slide("Síntesis: 5 Ideas Clave", [sintesis])
+
+    # Preguntas profundas
+    preguntas = contenido_expandido.get("preguntas_profundas", [])
     if isinstance(preguntas, list):
-        agregar_contenido_slide("Preguntas Clave", preguntas[:5])
+        agregar_contenido_slide("Preguntas Profundas", preguntas[:5])
+
+    # Referencias
+    referencias = contenido_expandido.get("referencias_apa", [])
+    if isinstance(referencias, list):
+        agregar_contenido_slide("Referencias APA 7", referencias[:8])
 
     cierre = ["Revisamos los objetivos", "Discusion y preguntas", f"Proximo tema: {proximo_tema}"]
     agregar_contenido_slide("Cierre", cierre)
