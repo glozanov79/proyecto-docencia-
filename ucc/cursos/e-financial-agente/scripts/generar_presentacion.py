@@ -60,7 +60,7 @@ CALIDAD: Expandido (3-4 frases por campo). Académico riguroso. SIN inventar. In
 
     message = client.messages.create(
         model="claude-opus-4-8",
-        max_tokens=1500,
+        max_tokens=3500,
         messages=[{"role": "user", "content": prompt}]
     )
 
