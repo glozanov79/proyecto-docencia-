@@ -31,24 +31,25 @@ def generar_contenido_claude(tema, objetivos, contenido, recursos):
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    prompt = f"""Eres profesor universitario creando presentacion profesional.
+    prompt = f"""Genera un JSON valido con contenido educativo profesional.
 
 TEMA: {tema}
 OBJETIVOS: {objetivos}
 CONTENIDO: {contenido}
 RECURSOS: {recursos}
 
-Genera contenido estructurado en JSON con estas claves:
+Responde SOLO con JSON valido (sin markdown). Usa este formato exactamente:
+{{
+  "resumen": "Texto de 1-2 lineas",
+  "conceptos": ["concepto1", "concepto2", "concepto3", "concepto4", "concepto5"],
+  "marco_teorico": "Parrafo sobre teoria. Otro parrafo. Otro parrafo.",
+  "ejemplos": ["Ejemplo1 concreto", "Ejemplo2 del mundo real", "Ejemplo3 aplicable"],
+  "actividades": ["Actividad1 practica", "Actividad2 interactiva", "Actividad3"],
+  "lecturas": ["Libro o articulo", "Referencia", "URL o fuente"],
+  "preguntas": ["Pregunta1?", "Pregunta2?", "Pregunta3?"]
+}}
 
-1. resumen: Punto clave del tema (1-2 lineas)
-2. conceptos: Lista 5-7 conceptos clave concretos
-3. marco_teorico: 3-4 puntos de contexto académico
-4. ejemplos: 3-4 ejemplos practicos reales
-5. actividades: 3 actividades para estudiantes
-6. lecturas: 5-6 referencias bibliograficas
-7. preguntas: 5 preguntas para discusión
-
-Responde SOLO JSON, sin markdown."""
+NO incluyas comillas dobles dentro de los valores. NO incluyas markdown."""
 
     message = client.messages.create(
         model="claude-opus-4-8",
