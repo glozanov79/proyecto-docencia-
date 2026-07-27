@@ -213,3 +213,5 @@ if __name__ == "__main__":
         print("Uso: python generar_presentacion.py <ruta_brief>")
         sys.exit(1)
     crear_presentacion(sys.argv[1])
+
+print('DEBUG FULL:', contenido_expandido)
