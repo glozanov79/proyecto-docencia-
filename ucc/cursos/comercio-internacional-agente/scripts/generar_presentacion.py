@@ -51,7 +51,7 @@ Genera contenido estructurado en JSON con estas claves:
 Responde SOLO JSON, sin markdown."""
 
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-opus-4.8",
         max_tokens=1500,
         messages=[{"role": "user", "content": prompt}]
     )
