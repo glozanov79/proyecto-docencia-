@@ -2,11 +2,11 @@
 
 **Última actualización:** (se actualiza después de cada clase)
 
-**Semana actual:** 1
+**Semana actual:** 1 (brief generado)
 **Fecha de la última clase dictada:** —
 **Tema visto en la última clase:** —
 **Qué faltó o quedó pendiente de esa clase:** —
 **Tarea/evidencia asignada y fecha de entrega:** —
-**Próxima clase (semana + tema según el mapa):** Semana 1 — Historia fiscal en Colombia
+**Próxima clase (semana + tema según el mapa):** Semana 1 — 2026-08-01
 **Notas para la presentación de la próxima clase:** —
-**Estado de preparación semana 1:** pendiente
+**Estado de preparación semana 1:** brief generado ✓ (`salidas/Semana 01/brief.md`)

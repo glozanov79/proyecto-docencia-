@@ -1,10 +1,13 @@
-"""Genera presentacion PowerPoint profesional desde brief."""
+"""Genera presentacion PowerPoint profesional usando Claude para contenido expandido."""
 
 import sys
+import os
+import json
 from pathlib import Path
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
+import anthropic
 
 def leer_brief(ruta):
     return Path(ruta).read_text(encoding="utf-8") if Path(ruta).exists() else None
@@ -19,78 +22,59 @@ def extraer_campo(texto, titulo):
         fin = len(texto)
     return texto[inicio:fin].strip()
 
+def generar_contenido_claude(tema, objetivos, contenido, recursos):
+    """Usa Claude para expandir y estructurar contenido profesionalmente"""
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("ERROR: ANTHROPIC_API_KEY no configurada")
+        return None
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    prompt = f"""Eres profesor universitario creando presentacion profesional.
+
+TEMA: {tema}
+OBJETIVOS: {objetivos}
+CONTENIDO: {contenido}
+RECURSOS: {recursos}
+
+Genera contenido estructurado en JSON con estas claves:
+
+1. resumen: Punto clave del tema (1-2 lineas)
+2. conceptos: Lista 5-7 conceptos clave concretos
+3. marco_teorico: 3-4 puntos de contexto académico
+4. ejemplos: 3-4 ejemplos practicos reales
+5. actividades: 3 actividades para estudiantes
+6. lecturas: 5-6 referencias bibliograficas
+7. preguntas: 5 preguntas para discusión
+
+Responde SOLO JSON, sin markdown."""
+
+    message = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=1500,
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    try:
+        texto = message.content[0].text
+        return json.loads(texto)
+    except:
+        print("ERROR: No se pudo parsear respuesta de Claude")
+        return None
+
 def crear_presentacion(brief_path):
+    """Crea presentacion con contenido generado por Claude"""
     brief = leer_brief(brief_path)
     if not brief:
         print(f"ERROR: No se pudo leer {brief_path}")
         return False
 
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(7.5)
-
-    COLOR_PRINCIPAL = RGBColor(0, 102, 204)
-    COLOR_TEXTO = RGBColor(51, 51, 51)
-
-    def agregar_slide_titulo(titulo, subtitulo=""):
-        slide = prs.slides.add_slide(prs.slide_layouts[6])
-        background = slide.background
-        fill = background.fill
-        fill.solid()
-        fill.fore_color.rgb = COLOR_PRINCIPAL
-
-        title_box = slide.shapes.add_textbox(Inches(0.5), Inches(2.5), Inches(9), Inches(2))
-        title_frame = title_box.text_frame
-        title_frame.word_wrap = True
-        p = title_frame.paragraphs[0]
-        p.text = titulo
-        p.font.size = Pt(54)
-        p.font.bold = True
-        p.font.color.rgb = RGBColor(255, 255, 255)
-
-        if subtitulo:
-            sub_box = slide.shapes.add_textbox(Inches(0.5), Inches(4.8), Inches(9), Inches(1.5))
-            sub_frame = sub_box.text_frame
-            sub_frame.word_wrap = True
-            p = sub_frame.paragraphs[0]
-            p.text = subtitulo
-            p.font.size = Pt(20)
-            p.font.color.rgb = RGBColor(220, 220, 220)
-
-    def agregar_slide_contenido(titulo, items):
-        slide = prs.slides.add_slide(prs.slide_layouts[6])
-        
-        barra = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(0.8))
-        barra.fill.solid()
-        barra.fill.fore_color.rgb = COLOR_PRINCIPAL
-        barra.line.color.rgb = COLOR_PRINCIPAL
-
-        title_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.15), Inches(9), Inches(0.6))
-        title_frame = title_box.text_frame
-        p = title_frame.paragraphs[0]
-        p.text = titulo
-        p.font.size = Pt(36)
-        p.font.bold = True
-        p.font.color.rgb = RGBColor(255, 255, 255)
-
-        content_box = slide.shapes.add_textbox(Inches(0.8), Inches(1.3), Inches(8.4), Inches(5.8))
-        content_frame = content_box.text_frame
-        content_frame.word_wrap = True
-
-        for item in items:
-            if item.strip():
-                p = content_frame.add_paragraph()
-                p.text = item.strip().lstrip("-").strip()
-                p.font.size = Pt(18)
-                p.font.color.rgb = COLOR_TEXTO
-                p.space_before = Pt(6)
-                p.space_after = Pt(6)
-
     tema = extraer_campo(brief, "Tema de la clase").split('\n')[0]
     semana_info = extraer_campo(brief, "Semana y fecha")
-    objetivos_texto = extraer_campo(brief, "Objetivos de aprendizaje")
-    contenido_texto = extraer_campo(brief, "Contenido clave a cubrir")
-    recursos_texto = extraer_campo(brief, "Recursos oficiales del temario")
+    objetivos = extraer_campo(brief, "Objetivos de aprendizaje")
+    contenido = extraer_campo(brief, "Contenido clave a cubrir")
+    recursos = extraer_campo(brief, "Recursos oficiales del temario")
     proximo_tema = extraer_campo(brief, "Proxima tema")
 
     fecha = ""
@@ -99,28 +83,123 @@ def crear_presentacion(brief_path):
             fecha = linea.split("Fecha:")[1].strip()
             break
 
-    agregar_slide_titulo(tema, f"Semana 1\n{fecha}")
-    agregar_slide_contenido("Agenda", ["Objetivos", "Contenido", "Actividades", "Recursos"])
-    
-    objetivos = [l.strip() for l in objetivos_texto.split('\n') if l.strip()]
-    agregar_slide_contenido("Objetivos", objetivos)
+    print(f"Generando contenido profesional con Claude...")
+    contenido_expandido = generar_contenido_claude(tema, objetivos, contenido, recursos)
 
-    agregar_slide_contenido("Tema", [tema])
-    
-    contenido = [l.strip() for l in contenido_texto.split('\n') if l.strip()]
-    agregar_slide_contenido("Contenido Clave", contenido[:6])
+    if not contenido_expandido:
+        print("ERROR: Claude no genero contenido")
+        return False
 
-    recursos = [l.strip() for l in recursos_texto.split('\n') if l.strip()]
-    agregar_slide_contenido("Recursos", recursos if recursos else [recursos_texto])
+    prs = Presentation()
+    prs.slide_width = Inches(10)
+    prs.slide_height = Inches(7.5)
 
-    agregar_slide_contenido("Actividades", ["Presentacion", "Ejercicios profesor", "Actividades grupo", "Q&A"])
-    agregar_slide_contenido("Proxima Clase", [proximo_tema if proximo_tema else "Siguiente tema"])
-    agregar_slide_contenido("Cierre", ["Resumen", "Preguntas", "Tareas"])
+    COLOR_PRINCIPAL = RGBColor(0, 102, 204)
+    COLOR_SECUNDARIO = RGBColor(51, 51, 51)
+    COLOR_ACENTO = RGBColor(255, 102, 0)
+
+    def agregar_titulo_slide(titulo, subtitulo=""):
+        slide = prs.slides.add_slide(prs.slide_layouts[6])
+        bg = slide.background
+        fill = bg.fill
+        fill.solid()
+        fill.fore_color.rgb = COLOR_PRINCIPAL
+
+        title_box = slide.shapes.add_textbox(Inches(0.5), Inches(2.5), Inches(9), Inches(2))
+        tf = title_box.text_frame
+        tf.word_wrap = True
+        p = tf.paragraphs[0]
+        p.text = titulo
+        p.font.size = Pt(54)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(255, 255, 255)
+
+        if subtitulo:
+            sub = slide.shapes.add_textbox(Inches(0.5), Inches(4.8), Inches(9), Inches(1.5))
+            sf = sub.text_frame
+            sf.word_wrap = True
+            p = sf.paragraphs[0]
+            p.text = subtitulo
+            p.font.size = Pt(18)
+            p.font.color.rgb = RGBColor(200, 200, 200)
+
+    def agregar_contenido_slide(titulo, items):
+        slide = prs.slides.add_slide(prs.slide_layouts[6])
+
+        bg = slide.background
+        fill = bg.fill
+        fill.solid()
+        fill.fore_color.rgb = RGBColor(255, 255, 255)
+
+        bar = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(0.8))
+        bar.fill.solid()
+        bar.fill.fore_color.rgb = COLOR_PRINCIPAL
+        bar.line.color.rgb = COLOR_PRINCIPAL
+
+        title_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.15), Inches(9), Inches(0.6))
+        tf = title_box.text_frame
+        p = tf.paragraphs[0]
+        p.text = titulo
+        p.font.size = Pt(36)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(255, 255, 255)
+
+        content_box = slide.shapes.add_textbox(Inches(0.8), Inches(1.2), Inches(8.4), Inches(6))
+        cf = content_box.text_frame
+        cf.word_wrap = True
+
+        for item in items:
+            texto = str(item).strip().lstrip("-•*").strip()
+            if texto:
+                p = cf.add_paragraph()
+                p.text = texto
+                p.font.size = Pt(16)
+                p.font.color.rgb = COLOR_SECUNDARIO
+                p.space_before = Pt(8)
+                p.space_after = Pt(8)
+
+    agregar_titulo_slide(tema, f"Semana 1\n{fecha}")
+    agregar_contenido_slide("Agenda", ["Objetivos de aprendizaje", "Contenido clave", "Actividades", "Recursos"])
+
+    objetivos_list = [l.strip() for l in objetivos.split('\n') if l.strip()]
+    agregar_contenido_slide("Objetivos", objetivos_list[:5])
+
+    resumen = contenido_expandido.get("resumen", "")
+    agregar_contenido_slide("Resumen Ejecutivo", [resumen])
+
+    conceptos = contenido_expandido.get("conceptos", [])
+    if isinstance(conceptos, list):
+        agregar_contenido_slide("Conceptos Clave", conceptos[:6])
+
+    marco = contenido_expandido.get("marco_teorico", [])
+    if isinstance(marco, list):
+        agregar_contenido_slide("Marco Teorico", marco[:4])
+    elif isinstance(marco, str):
+        agregar_contenido_slide("Marco Teorico", [marco])
+
+    ejemplos = contenido_expandido.get("ejemplos", [])
+    if isinstance(ejemplos, list):
+        agregar_contenido_slide("Ejemplos Practicos", ejemplos[:4])
+
+    actividades = contenido_expandido.get("actividades", [])
+    if isinstance(actividades, list):
+        agregar_contenido_slide("Actividades", actividades[:3])
+
+    lecturas = contenido_expandido.get("lecturas", [])
+    if isinstance(lecturas, list):
+        agregar_contenido_slide("Lecturas Complementarias", lecturas[:5])
+
+    preguntas = contenido_expandido.get("preguntas", [])
+    if isinstance(preguntas, list):
+        agregar_contenido_slide("Preguntas Clave", preguntas[:5])
+
+    cierre = ["Revisamos los objetivos", "Discusion y preguntas", f"Proximo tema: {proximo_tema}"]
+    agregar_contenido_slide("Cierre", cierre)
 
     output_dir = Path(brief_path).parent
     output_path = output_dir / "presentacion.pptx"
     prs.save(str(output_path))
-    print(f"OK: presentacion.pptx")
+    print(f"OK: presentacion.pptx generada")
     return True
 
 if __name__ == "__main__":

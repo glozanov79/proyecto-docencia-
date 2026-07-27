@@ -171,7 +171,7 @@ def main():
         print(f"Sin clase el {fecha_objetivo} (en {anticipacion} día(s)). Nada que preparar.")
         return
 
-    nota = sesion.get("nota", "")
+    nota = sesion.get("nota") or ""
     if "avance" in nota.lower():
         print(f"Semana {sesion['semana']} ({fecha_objetivo}): {nota}")
         print("Es una entrega de avance. No se genera brief.")
