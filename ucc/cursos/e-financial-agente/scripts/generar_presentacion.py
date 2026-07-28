@@ -50,7 +50,7 @@ def generar_contenido_claude(tema, objetivos, contenido, recursos):
 
     message = client.messages.create(
         model="claude-opus-4-8",
-        max_tokens=5500,
+        max_tokens=6000,
         messages=[{"role": "user", "content": prompt}]
     )
 
