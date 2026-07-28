@@ -172,7 +172,7 @@ def main():
                 print("(ANTHROPIC_API_KEY no configurada — se omite presentación/taller/videos)")
                 continue
 
-            for script_extra in ("generar_presentacion.py", "generar_taller.py", "generar_videos.py"):
+            for script_extra in ("generar_taller.py", "generar_videos.py"):
                 print(f"\n--- Ejecutando {script_extra} de {p['nombre']} ---")
                 r = subprocess.run(
                     [sys.executable, f"scripts/{script_extra}", str(brief_path)],
@@ -185,6 +185,37 @@ def main():
                 if r.returncode != 0:
                     print(f"ERROR en {script_extra}:")
                     print(r.stderr)
+
+            # === PRESENTACIÓN: 2 PASOS ===
+            if api_disponible:
+                print(f"\n--- PASO 1: generar_contenido.py de {p['nombre']} ---")
+                salida_json = p["carpeta"] / "salidas" / "contenido.json"
+                r1 = subprocess.run(
+                    [sys.executable, str(Path(__file__).parent / "comun" / "presentacion" / "generar_contenido.py"),
+                     str(brief_path), str(salida_json)],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                )
+                print(r1.stdout)
+                if r1.returncode != 0:
+                    print(f"ERROR en generar_contenido.py:")
+                    print(r1.stderr)
+                    continue
+
+                print(f"\n--- PASO 2: generar_presentacion.py de {p['nombre']} ---")
+                salida_pptx = p["carpeta"] / "salidas" / "presentacion.pptx"
+                r2 = subprocess.run(
+                    [sys.executable, str(Path(__file__).parent / "comun" / "presentacion" / "generar_presentacion.py"),
+                     str(salida_json), str(salida_pptx)],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                )
+                print(r2.stdout)
+                if r2.returncode != 0:
+                    print(f"ERROR en generar_presentacion.py:")
+                    print(r2.stderr)
 
         print("\n--- Creando reminder de revisión ---")
         crear_task_revisar_cursos()
