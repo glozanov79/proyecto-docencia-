@@ -1,0 +1,165 @@
+DIRECTOR DE DISEÑO Y CONTENIDO: Genera presentación universitaria con NARRATIVA FLUIDA, RIGOR ACADÉMICO y FRASES ANCLA MEMORABLES.
+
+CONTEXTO:
+- Tema: {tema}
+- Objetivos: {objetivos}
+- Contenido: {contenido}
+- Referencias: {recursos}
+
+REGLA DE ORO — El equilibrio perfecto:
+✅ Cada diapositiva abre con una FRASE ANCLA (≤12 palabras, afirmación completa, memorable).
+✅ Debajo: 2-3 APOYOS (oraciones legibles ≤18 palabras, no fragmentos).
+✅ NOTAS DEL ORADOR: 4-8 líneas de prosa natural, con conectores entre slides ("Ya vimos...", "Por eso...", "Esto significa...").
+✅ VISUALES: Descripción de qué va en cada slide (ícono, gráfico, línea de tiempo, tarjeta, diagrama).
+
+CALIDAD ACADÉMICA (NO INVENTAR):
+- Autores reales (3-6): año + aporte específico + impacto verificable.
+- Casos reales (2+): 1 anclado en Colombia/Latam, 1 internacional. Contexto → Hechos → Concepto → Lección.
+- Datos verificables: cifra + fuente + año. Mínimo 3 estadísticas.
+- IA/herramientas modernas: algoritmo/tool que profesionales usan hoy.
+- Debate crítico: controversias reales, no genéricas.
+- Referencias APA 7: 6-8 fuentes reales.
+
+ESTRUCTURA NARRATIVA:
+El deck cuenta UNA HISTORIA:
+1. Pregunta/tensión (por qué importa)
+2. Desarrollo (concepto, autores, evolución)
+3. Evidencia (datos, casos reales)
+4. Síntesis (5 ideas clave)
+5. Cierre (retoma la pregunta, adelanto)
+
+Las frases ancla, leídas en secuencia, deben contar la historia completa.
+
+RESPONDE SOLO JSON (sin markdown, sin código JavaScript):
+
+{
+  "narrativa_arco": "Una frase que resume el arco narrativo del deck (pregunta → desarrollo → evidencia → síntesis → cierre)",
+
+  "portada": {
+    "titulo": "Tema de la clase",
+    "frase_ancla": "Una afirmación sobre por qué importa este tema (≤12 palabras)",
+    "visual": "Descripción de ícono/imagen temática"
+  },
+
+  "marco_conceptual": {
+    "frase_ancla": "Ej: 'Tres conceptos clave explican todo'",
+    "apoyos": ["Apoyo 1: oración legible", "Apoyo 2: oración legible", "Apoyo 3: oración legible"],
+    "notas_orador": "4-8 líneas: Explicación fluida, conectores, transición a siguiente slide",
+    "visual": "Ícono/diagrama que ilustra los 3 conceptos"
+  },
+
+  "autores_clave": {
+    "frase_ancla": "Ej: 'Cuatro pensadores revolucionaron cómo entendemos esto'",
+    "timeline": [
+      {"año": 1952, "autor": "Markowitz", "aporte": "Teoría de Portafolios", "impacto": "Base de toda gestión moderna"},
+      {"año": 1973, "autor": "Black-Scholes", "aporte": "Modelo de valuación", "impacto": "Herramienta profesional estándar"}
+    ],
+    "notas_orador": "4-8 líneas: Conexión histórica, evolución, por qué cada autor importa hoy",
+    "visual": "Línea de tiempo horizontal con nodos por autor y año"
+  },
+
+  "caso_real_1": {
+    "titulo_slide": "Caso Colombia/Latam",
+    "frase_ancla": "Afirmación que resume la lección del caso (≤12 palabras)",
+    "bloques": {
+      "contexto": "Dónde y cuándo (1 oración legible)",
+      "hechos": "Qué pasó con cifras concretas (1 oración)",
+      "concepto": "Qué concepto del tema ilustra (1 oración)",
+      "leccion": "Aprendizaje aplicable hoy (1 oración)"
+    },
+    "notas_orador": "4-8 líneas: Narrativa de cómo ocurrió, por qué importa, conexión con la clase",
+    "visual": "Foto/ícono del caso o gráfico de datos del caso"
+  },
+
+  "caso_real_2": {
+    "titulo_slide": "Caso internacional/contrastante",
+    "frase_ancla": "Perspectiva diferente o contraste (≤12 palabras)",
+    "bloques": {
+      "contexto": "...",
+      "hechos": "...",
+      "concepto": "...",
+      "leccion": "..."
+    },
+    "notas_orador": "4-8 líneas: Cómo este caso contrasta o complementa el primero",
+    "visual": "Foto/ícono/gráfico del caso"
+  },
+
+  "datos_evidencia": {
+    "frase_ancla": "Ej: 'Los números confirman la teoría'",
+    "stats": [
+      {"cifra": "73%", "etiqueta": "Fondos que usan este modelo", "fuente": "Bloomberg 2024"},
+      {"cifra": "$2.1T", "etiqueta": "AUM bajo esta estrategia", "fuente": "Vanguard 2023"},
+      {"cifra": "1.5x", "etiqueta": "Outperformance vs benchmark", "fuente": "MSCI 2023"}
+    ],
+    "notas_orador": "4-8 líneas: Qué significan estos números, contexto global, implicaciones",
+    "visual": "Gráfico de barras o línea de tendencia con estos 3 datos"
+  },
+
+  "aplicacion_ia": {
+    "frase_ancla": "Ej: 'IA está transformando cómo se hace esto hoy'",
+    "herramientas": [
+      {"nombre": "ChatGPT/Claude", "uso": "Para análisis de portafolios y reportes en 1 oración"},
+      {"nombre": "Python/Machine Learning", "uso": "Para predicción de riesgos en tiempo real en 1 oración"}
+    ],
+    "notas_orador": "4-8 líneas: Cómo IA cambia la práctica profesional, ejemplos concretos",
+    "visual": "Ícono de herramienta o diagrama de flujo de IA"
+  },
+
+  "debate_critico": {
+    "frase_ancla": "Ej: 'Aquí hay tensión: dos perspectivas en conflicto'",
+    "perspectiva_a": "Crítica o limitación real (1-2 oraciones legibles)",
+    "perspectiva_b": "Defensa o contexto (1-2 oraciones legibles)",
+    "notas_orador": "4-8 líneas: Por qué ambas perspectivas son válidas, cómo navegarlas en la práctica",
+    "visual": "Dos columnas en contraste (A vs B) o ícono de balanza"
+  },
+
+  "actividad_clase": {
+    "frase_ancla": "Ej: 'Ahora aplicamos lo aprendido en 15 minutos'",
+    "pasos": [
+      {"num": 1, "instruccion": "Primer paso (1 oración clara)"},
+      {"num": 2, "instruccion": "Segundo paso (1 oración)"},
+      {"num": 3, "instruccion": "Tercer paso (1 oración)"}
+    ],
+    "tiempo_total": "15 min",
+    "notas_orador": "4-8 líneas: Instrucciones detalladas, ejemplos, cómo facilitar la actividad",
+    "visual": "Ícono de taller/actividad o cronómetro destacado"
+  },
+
+  "sintesis_5ideas": [
+    {"num": 1, "idea": "Idea clave 1 en 1 oración memorable (≤14 palabras)"},
+    {"num": 2, "idea": "Idea clave 2 en 1 oración memorable"},
+    {"num": 3, "idea": "Idea clave 3 en 1 oración memorable"},
+    {"num": 4, "idea": "Idea clave 4 en 1 oración memorable"},
+    {"num": 5, "idea": "Idea clave 5 en 1 oración memorable"}
+  ],
+
+  "preguntas_profundas": [
+    "¿Pregunta de análisis crítico sobre el tema?",
+    "¿Pregunta de aplicación real en la profesión?",
+    "¿Pregunta sobre impacto futuro?",
+    "¿Pregunta que integra perspectivas diferentes?",
+    "¿Pregunta que conecta con la vida del estudiante?"
+  ],
+
+  "referencias_apa": [
+    "Referencia 1 en formato APA 7",
+    "Referencia 2 en formato APA 7",
+    "Referencia 3 (mínimo 6-8 referencias reales, sin inventar)"
+  ],
+
+  "cierre": {
+    "frase_ancla": "Afirmación que retoma la pregunta inicial (≤12 palabras)",
+    "adelanto_proximo": "Una frase sobre el próximo tema que genera curiosidad",
+    "notas_orador": "4-8 líneas: Resumen, puente hacia siguiente sesión, despedida"
+  }
+}
+
+CHECKLIST (CRÍTICO):
+✅ Cada frase ancla es una afirmación completa, memorable (no rótulo).
+✅ Cada apoyo es oración legible en español fluido (≤18 palabras).
+✅ Notas del orador: prosa natural, 4-8 líneas, conectores entre slides.
+✅ Autores reales con años. Casos específicos (1 Colombia). Datos con fuente.
+✅ Sin inventar cifras, autores ni referencias.
+✅ Las frases ancla leídas en secuencia cuentan una historia coherente.
+✅ Visuales descritos para cada slide (no genéricos).
+✅ Narrativa: pregunta → desarrollo → evidencia → síntesis → cierre.
