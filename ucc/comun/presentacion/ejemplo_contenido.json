@@ -1,0 +1,138 @@
+{
+  "curso": "E-Financial",
+  "semana": "Semana 1",
+  "profesor": "Germán Lozano Vivas",
+  "institucion": "Universidad Cooperativa de Colombia",
+  "diapositivas": [
+    {
+      "tipo": "portada",
+      "titulo": "Generalidades de los fondos de inversión",
+      "subtitulo": "Presentación del programa · lunes, 3 de agosto de 2026"
+    },
+    {
+      "tipo": "agenda",
+      "titulo": "Agenda",
+      "frase_ancla": "Hoy recorremos qué es un fondo y por qué importa.",
+      "items": ["Objetivos de aprendizaje", "Qué es un fondo de inversión",
+                "Autores que fundaron la teoría", "Datos de la industria",
+                "Un caso real", "Taller en clase"],
+      "notas_orador": "Bienvenidos a E-Financial. Hoy abrimos el curso con las generalidades de los fondos de inversión; esta hoja de ruta nos guía toda la sesión."
+    },
+    {
+      "tipo": "objetivos",
+      "titulo": "Objetivos de aprendizaje",
+      "frase_ancla": "Al terminar, podrás explicar y comparar fondos.",
+      "objetivos": ["Comprender qué es un fondo de inversión y su estructura",
+                    "Distinguir gestión activa de gestión pasiva",
+                    "Relacionar el tema con el proyecto del curso"]
+    },
+    {
+      "tipo": "autores",
+      "titulo": "Autores clave",
+      "frase_ancla": "Cuatro autores fundaron la inversión moderna.",
+      "nodos": [
+        {"anio": "1952", "titulo": "Markowitz", "aporte": "Teoría de portafolios: diversificar combina riesgos."},
+        {"anio": "1958", "titulo": "Tobin", "aporte": "Teorema de separación y preferencia por liquidez."},
+        {"anio": "1964", "titulo": "Sharpe", "aporte": "CAPM y ratio de Sharpe para medir el riesgo."},
+        {"anio": "1965", "titulo": "Fama", "aporte": "Hipótesis de los mercados eficientes."}
+      ],
+      "notas_orador": "Antes de operar un fondo conviene saber de dónde vienen las ideas. Markowitz formaliza la diversificación; Tobin, Sharpe y Fama construyen sobre esa base hasta el CAPM y los mercados eficientes."
+    },
+    {
+      "tipo": "marco",
+      "titulo": "Marco conceptual",
+      "frase_ancla": "Tres pilares definen todo fondo de inversión.",
+      "tarjetas": [
+        {"titulo": "Inversión colectiva", "texto": "Reúne el dinero de muchos bajo gestión profesional."},
+        {"titulo": "Diversificación", "texto": "Reparte el riesgo entre múltiples activos y sectores."},
+        {"titulo": "Valor de la unidad", "texto": "Refleja a diario el patrimonio total del fondo."}
+      ]
+    },
+    {
+      "tipo": "datos",
+      "titulo": "Datos y evidencia",
+      "frase_ancla": "La industria mueve cifras que redefinen el ahorro.",
+      "stats": [
+        {"cifra": "USD 145 B", "etiqueta": "Activos globales de fondos regulados", "fuente": "ICI, 2024"},
+        {"cifra": "COP 90 B", "etiqueta": "Patrimonio de los FIC en Colombia", "fuente": "SFC, 2022"},
+        {"cifra": "~50 %", "etiqueta": "Cuota de fondos indexados en EE. UU.", "fuente": "Morningstar, 2023"}
+      ],
+      "grafico": {
+        "titulo": "% de fondos activos que no superan su índice",
+        "categorias": ["5 años", "10 años"], "valores": [60, 79], "num_format": "0\"%\""
+      }
+    },
+    {
+      "tipo": "caso",
+      "titulo": "Caso real · Vanguard 500 Index Fund",
+      "frase_ancla": "El primer fondo indexado cambió las reglas del costo.",
+      "bloques": [
+        {"etiqueta": "Contexto", "texto": "John Bogle lo lanzó en 1976 para el inversionista minorista."},
+        {"etiqueta": "Hechos", "texto": "Replica el S&P 500 con comisiones cercanas al 0,04 % anual."},
+        {"etiqueta": "Concepto", "texto": "Ilustra la gestión pasiva y el peso del costo en el largo plazo."},
+        {"etiqueta": "Lección", "texto": "Bajar comisiones y diversificar suele superar a la gestión activa."}
+      ]
+    },
+    {
+      "tipo": "aplicacion_ia",
+      "titulo": "Aplicación con IA",
+      "frase_ancla": "La IA ya administra portafolios en tiempo real.",
+      "tarjetas": [
+        {"titulo": "Robo-advisors", "texto": "Asignan activos según el perfil de riesgo del inversionista."},
+        {"titulo": "Rebalanceo automático", "texto": "Algoritmos ajustan la cartera y optimizan impuestos."},
+        {"titulo": "Detección de riesgo", "texto": "Machine learning vigila patrones de mercado en vivo."}
+      ]
+    },
+    {
+      "tipo": "debate",
+      "titulo": "Debate: activa vs. pasiva",
+      "frase_ancla": "¿Vale la pena pagar por gestión activa?",
+      "columna_a": {"titulo": "A favor de la pasiva",
+                    "puntos": ["Menores comisiones a largo plazo",
+                               "La mayoría de activos no supera su índice",
+                               "Simplicidad y transparencia"]},
+      "columna_b": {"titulo": "A favor de la activa",
+                    "puntos": ["Puede proteger en caídas de mercado",
+                               "Busca alfa en mercados ineficientes",
+                               "Flexibilidad ante coyunturas"]}
+    },
+    {
+      "tipo": "actividad",
+      "titulo": "Actividad en clase",
+      "frase_ancla": "Diseña una cartera y defiéndela.",
+      "tiempo": "18 min",
+      "pasos": ["En grupos de tres, elijan dos FIC colombianos reales (datos de la SFC).",
+                "Comparen comisión, tipo de activos y rentabilidad histórica.",
+                "Recomienden uno a un ahorrador conservador y justifiquen con los tres pilares."]
+    },
+    {
+      "tipo": "sintesis",
+      "titulo": "Síntesis",
+      "frase_ancla": "Cinco ideas para llevar.",
+      "ideas": ["Un fondo transforma ahorro individual en capital colectivo gestionado.",
+                "Diversificar reduce el riesgo sin sacrificar necesariamente el retorno.",
+                "Markowitz, Tobin, Sharpe y Fama fundaron la inversión moderna.",
+                "El costo y la regulación determinan la confianza del inversionista.",
+                "El valor de la unidad (NAV) es la brújula diaria del fondo."]
+    },
+    {
+      "tipo": "cierre",
+      "titulo": "Cierre",
+      "frase_ancla": "Ya sabes qué es un fondo y por qué importa el costo.",
+      "proximo_tema": "Próxima clase: mercados de capitales y tipos de fondos.",
+      "notas_orador": "Cerramos con las cinco ideas y abrimos la puerta a la próxima sesión sobre mercados de capitales."
+    },
+    {
+      "tipo": "referencias",
+      "titulo": "Referencias (APA 7)",
+      "items": [
+        "Markowitz, H. (1952). Portfolio selection. The Journal of Finance, 7(1), 77-91.",
+        "Sharpe, W. F. (1964). Capital asset prices. The Journal of Finance, 19(3), 425-442.",
+        "Fama, E. F. (1970). Efficient capital markets. The Journal of Finance, 25(2), 383-417.",
+        "Bogle, J. C. (1999). Common sense on mutual funds. Wiley.",
+        "Investment Company Institute. (2024). Investment company fact book. ICI.",
+        "Superintendencia Financiera de Colombia. (2022). Informe de FIC. SFC."
+      ]
+    }
+  ]
+}
