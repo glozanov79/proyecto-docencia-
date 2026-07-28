@@ -31,119 +31,22 @@ def generar_contenido_claude(tema, objetivos, contenido, recursos):
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    prompt = f"""DIRECTOR DE DISEÑO: Genera presentación con NARRATIVA FLUIDA, RIGOR ACADÉMICO y DISEÑO PROFESIONAL.
+    # Lee prompt desde archivo configuración (sin contaminar con f-strings)
+    prompt_path = Path(__file__).parent.parent.parent.parent / "config" / "prompt-presentacion-robusto.txt"
+    if not prompt_path.exists():
+        print(f"ERROR: No se encontró {prompt_path}")
+        return None
 
-TEMA: {tema}
-OBJETIVOS: {objetivos}
-CONTENIDO: {contenido}
-REFERENCIAS: {recursos}
+    prompt_plantilla = prompt_path.read_text(encoding="utf-8")
 
-REGLA DE ORO: Cada diapositiva abre con una FRASE ANCLA (afirmación completa ≤12 palabras). El contenido son 2-3 apoyos en ORACIONES LEGIBLES (no párrafos, no fragmentos). Las NOTAS DEL ORADOR llevan el guion hablado (4-8 líneas, conectores entre slides).
-
-ESTRUCTURA JSON (RESPONDE SOLO JSON, SIN MARKDOWN):
-{{
-  "portada_frase_ancla": "Una afirmación sobre por qué importa el tema",
-  "portada_notas": "4-8 líneas: gancho, impacto, transición a agenda",
-
-  "marco_conceptual": {{
-    "frase_ancla": "Definición breve y memorable (≤12 palabras)",
-    "apoyos": ["Apoyo 1 (una oración legible)", "Apoyo 2", "Apoyo 3"],
-    "notas_orador": "Explicación fluida con conectores, 4-8 líneas",
-    "visual": "Descripción de ícono/diagrama/imagen a usar"
-  }},
-
-  "autores_clave": {{
-    "frase_ancla": "Ej: 'Tres pensadores revolucionaron cómo entendemos esto'",
-    "timeline": [
-      {{"año": 1952, "autor": "Markowitz", "aporte": "Teoría Moderna de Portafolios", "impacto": "Base de diversificación"}},
-      {{"año": 1995, "autor": "Scholes", "aporte": "Modelo de valuación", "impacto": "Herramienta profesional"}}
-    ],
-    "notas_orador": "Conexión histórica, evolución del pensamiento",
-    "visual": "Línea de tiempo horizontal con nodos por autor"
-  }},
-
-  "caso_real_1": {{
-    "frase_ancla": "Afirmación que resume la lección del caso",
-    "contexto": "Dónde y cuándo (1 oración)",
-    "hechos": "Qué pasó (1 oración con cifras si aplica)",
-    "concepto": "Qué concepto del tema ilustra (1 oración)",
-    "leccion": "Aprendizaje aplicable hoy (1 oración)",
-    "notas_orador": "Narrativa de cómo ocurrió, por qué importa",
-    "visual": "Foto/ícono/gráfico del caso"
-  }},
-
-  "caso_real_2": {{
-    "frase_ancla": "Contraste o perspectiva diferente",
-    "contexto": "...",
-    "hechos": "...",
-    "concepto": "...",
-    "leccion": "...",
-    "notas_orador": "...",
-    "visual": "..."
-  }},
-
-  "datos_evidencia": {{
-    "frase_ancla": "Ej: 'Los números confirman lo que la teoría predice'",
-    "stats": [
-      {{"cifra": "73%", "etiqueta": "Fondos que usan este modelo", "fuente": "Bloomberg 2024"}},
-      {{"cifra": "$2.1T", "etiqueta": "AUM bajo estrategia relacionada", "fuente": "Vanguard Report 2023"}}
-    ],
-    "notas_orador": "Significado de los datos, contexto global",
-    "visual": "Gráfico de barras o línea de tendencia"
-  }},
-
-  "aplicacion_ia": {{
-    "frase_ancla": "IA y datos están transformando esta práctica",
-    "herramienta_1": "Nombre/tecnología: uso en 1 oración",
-    "herramienta_2": "...",
-    "notas_orador": "Cómo cambia el trabajo hoy; ejemplos concretos",
-    "visual": "Ícono de herramienta o diagrama de flujo"
-  }},
-
-  "debate_critico": {{
-    "frase_ancla": "Aquí hay tensión: perspectivas en conflicto",
-    "perspectiva_a": "Crítica o limitación (1-2 oraciones)",
-    "perspectiva_b": "Defensa o contexto (1-2 oraciones)",
-    "notas_orador": "Por qué ambas son válidas; cómo navegarlas",
-    "visual": "Dos columnas en contraste o balanza"
-  }},
-
-  "actividad_clase": {{
-    "frase_ancla": "Aplicar lo aprendido en 15 minutos",
-    "pasos": ["Paso 1: ... (1 oración)", "Paso 2: ..."],
-    "tiempo_badge": "15-20 min",
-    "notas_orador": "Instrucciones detalladas y transición",
-    "visual": "Ícono de actividad o cronómetro"
-  }},
-
-  "sintesis_5ideas": [
-    {{"num": 1, "idea": "Idea clave 1 en 1 oración memorable (≤14 palabras)"}},
-    {{"num": 2, "idea": "Idea clave 2"}},
-    {{"num": 3, "idea": "Idea clave 3"}},
-    {{"num": 4, "idea": "Idea clave 4"}},
-    {{"num": 5, "idea": "Idea clave 5"}}
-  ],
-
-  "preguntas_profundas": [
-    "¿Pregunta 1 de análisis crítico?",
-    "¿Pregunta 2 de aplicación real?",
-    "¿Pregunta 3 de impacto futuro?",
-    "¿Pregunta 4 de perspectivas?",
-    "¿Pregunta 5 de integración?"
-  ],
-
-  "referencias_apa": ["Referencia 1 APA 7", "Referencia 2", "Referencia 3 (mínimo 6)"],
-
-  "narracion_general": "Resumen de cómo las diapositivas forman un arco: pregunta → desarrollo → casos → evidencia → síntesis → cierre."
-}}
-
-CALIDAD (CRÍTICO):
-- Cada FRASE ANCLA es una afirmación completa, memorable y bien redactada (no un rótulo).
-- Cada APOYO es una oración legible en español fluido (≤18 palabras), no fragmentos.
-- NOTAS DEL ORADOR con conectores ("Ya vimos...", "Por eso...", "Esto significa...") para flujo narrativo.
-- Datos reales con fuente y año. Casos específicos. Autores de verdad. SIN INVENTAR.
-- Visuales descritos para cada sección (ícono, gráfico, línea de tiempo, tarjeta, etc.).
-- El arco narrativo: cuando lees todas las frases ancla, cuentan una historia coherente."""
+    # Sustituye SOLO las variables de contexto (tema, objetivos, etc.)
+    prompt = prompt_plantilla.replace("{tema}", tema).replace(
+        "{objetivos}", objetivos
+    ).replace(
+        "{contenido}", contenido
+    ).replace(
+        "{recursos}", recursos
+    )
 
     message = client.messages.create(
         model="claude-opus-4-8",
